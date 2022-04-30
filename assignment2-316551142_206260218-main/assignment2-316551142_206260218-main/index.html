@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="./jquery-3.4.1.slim.min.js"></script>
+		<script type="text/javascript" src="./app.js"></script>
+	</head>
+
+	<body>
+		<div id="welcome">
+			<!-- <img src="img/file"> -->
+			<button id="btnRegister">Register</button>
+			<button id="btnLogin">Login</button>
+		</div>
+
+		<div id="register">
+			<label>User name:</label>
+			<div class="filed">
+				<textarea class="reg" id="username"></textarea>
+			</div>
+			<label>Password:</label>
+			<div class="filed">
+				<textarea class="reg" id="password"></textarea>
+			</div>
+			<label>Full name:</label>
+			<div class="filed">
+				<textarea class="reg" id="fullname"></textarea>
+			</div>
+			<label>Email:</label>
+			<div class="filed">
+				<textarea class="reg" id="email"></textarea>
+			</div>
+			<label>Birthday:</label>
+			<div class="select-date">
+				<SELECT id ="year" name = "yyyy" onchange="change_year(this)">
+				</SELECT>
+				<SELECT  id ="month" name = "mm" onchange="change_month(this)">
+				</SELECT>
+				<SELECT id ="day" name = "dd" >
+				</SELECT>
+			</div>
+			<button id="submit" onclick="CheckDetails()">Submit</button>
+		</div>
+
+
+		<div id="login">
+			<label>User name:</label>
+			<div class="filed">
+				<textarea id="usernamelogin"></textarea>
+			</div>
+			<label>Password:</label>
+			<div class="filed">
+				<textarea id="passwordlogin"></textarea>
+			</div>
+			<button id="login" onclick="login()">login</button>
+		</div>
+
+		<div id="definition">
+			<button id="left" onclick="setKey('left')">&larr;</button>
+			<button id="right" onclick="setKey('right')">&rarr;</button>
+			<button id="up" onclick="setKey('up')">&uarr;</button>
+			<button id="down" onclick="setKey('down')">&darr;</button>
+
+			<div id="myModal" class="modal" style="display: none; z-index: 1; position: fixed;">
+				  <span class="close">&times;</span>
+				  <p>Press a key..</p>
+			  </div>
+
+			  <div class="foodNum">
+				<div class="ranges">
+				  <input class="numberBalls" type="range" min="50" max="90" step="1" value="70" oninput="changeNumber(this.value)">
+				  <output class="code-container">Food number: <span class="foodAns">70</span> </output>
+				</div>
+
+				<div class="colorBalls">
+					<input type="color"  style="border-radius:100%;" oninput="setColor(this.value, 's')" id="colorSmall" name="favcolor" value="#ff0000">
+					<input type="color"  style="border-radius:100%;" oninput="setColor(this.value, 'm')" id="colorMedium" name="favcolor" value="#ff0000">
+					<input type="color"  style="border-radius:100%;" oninput="setColor(this.value, 'l')" id="colorLarge" name="favcolor" value="#ff0000">
+				</div>
+			</div>
+
+			
+		</div>
+
+
+		<div id="score">
+			<label for="lblScore">SCORE:</label>
+			<input id="lblScore" type="text" />
+		</div>
+		<div id="time">
+			<label for="lblTime">TIME:</label>
+			<input id="lblTime" type="text" />
+		</div>
+		<div id="game">
+			<canvas id="canvas" height="600" width="600"></canvas>
+		</div>
+	</body>
+</html>
