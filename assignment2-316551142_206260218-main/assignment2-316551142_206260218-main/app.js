@@ -7,6 +7,7 @@ var start_time;
 var time_elapsed;
 var interval;
 var food_remain=50;
+var ghosts_remain=1;
 
 const users={};
 users["k"]="k";
@@ -14,10 +15,15 @@ const keys={"left":37, "right":39, "up":38,"down":40}
 var large="blue";
 var small="green";
 var medium="red";
+var tabs;
+var ghosts;
 
 
 $(document).ready(function() {
 	context = canvas.getContext("2d");
+	$('#welcome').removeClass('operation');
+	tabs= document.querySelectorAll('.tab');
+	ghosts=document.querySelectorAll('.imgGhosts');
 	Start();
 });
 
@@ -90,6 +96,12 @@ function Start() {
 		foodM--;
 		food_remain--;
 	}
+	while(ghosts_remain>0){
+		var emptyCell = findRandomEmptyCell(board);
+		board[emptyCell[0]][emptyCell[1]] = 6;
+		ghosts_remain--;
+	}
+	
 	keysDown = {};
 	addEventListener(
 		"keydown",
@@ -179,6 +191,13 @@ function Draw() {
 				context.fillStyle = "white";
 				context.fillText('15', center.x-5, center.y+3);
 			} 
+			else if(board[i][j]==6){//מפלצות
+				// var img = new Image();
+				// img.onload = function() {
+				// 	context.drawImage(img, i+60,j+60,30,30);
+				//   };
+				//   img.src = 'img/1ghosts.jpg';
+			}
 		}
 	}
 }
@@ -431,4 +450,25 @@ function setColor(val,type){
 			large=val;
 	}
 	console.log(small);
+}
+
+
+
+function changeOperator(op){
+	console.log(op);
+	console.log(tabs);
+	tabs.forEach(t => t.classList.add('operation'));
+	console.log(document.querySelector(`#${op}`));
+	document.querySelector(`#${op}`).classList.remove('operation');
+	if (op==="definition"){
+		document.querySelector(`.imgGhosts1`).classList.remove('imgGhosts');
+	}
+}
+
+function changeGhosts(val){
+	ghosts.forEach(t => t.classList.add('imgGhosts'));
+	console.log(val);
+	console.log(document.querySelector(`.imgGhosts${val}`));
+	document.querySelector(`.imgGhosts${val}`).classList.remove('imgGhosts')
+	ghosts_remain=val;
 }
