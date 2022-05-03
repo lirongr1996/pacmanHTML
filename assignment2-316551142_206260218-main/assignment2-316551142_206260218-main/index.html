@@ -53,8 +53,10 @@
       </div>
       <div class="operation tab" id="welcome">
         <!-- <img src="img/file"> -->
-        <button id="btnRegister">Register</button>
-        <button id="btnLogin">Login</button>
+        <button id="btnRegister" onclick="changeOperator('register')">
+          Register
+        </button>
+        <button id="btnLogin" onclick="changeOperator('login')">Login</button>
       </div>
 
       <div class="operation tab" id="register">
@@ -66,6 +68,7 @@
         <div class="filed">
           <textarea class="reg" id="password"></textarea>
         </div>
+        
         <label>Full name:</label>
         <div class="filed">
           <textarea class="reg" id="fullname"></textarea>
@@ -153,28 +156,47 @@
           />
         </div>
         <div class="timeGame">
-			<label>time</label>
-		</div>
-		<div class="GhostNum">
-			<div class="ranges">
-				<input
-				  class="numberGhosts"
-				  type="range"
-				  min="1"
-				  max="4"
-				  step="1"
-				  value="1"
-				  oninput="changeGhosts(this.value)"
-				/>
-				<output class="code-container"
-				  >
-				  <img class="imgGhosts imgGhosts1" src="img/1ghosts.jpg">
-				  <img class="imgGhosts imgGhosts2" src="img/2ghosts.jpg">
-				  <img class="imgGhosts imgGhosts3" src="img/3ghosts.jpg">
-				  <img class="imgGhosts imgGhosts4" src="img/4ghosts.jpg">
-				</output>
-			  </div>
-		</div>
+          <label>time</label>
+          <input
+              class="finishtime"
+              type="range"
+              min="60"
+              max="300"
+              step="1"
+              value="60"
+              oninput="setTime(this.value)"
+            />
+            <output class="code-container"
+              >Time to the game: <span class="timeAns">60</span>
+            </output>
+        </div>
+        <div class="GhostNum">
+          <div class="ranges">
+            <input
+              class="numberGhosts"
+              type="range"
+              min="1"
+              max="4"
+              step="1"
+              value="1"
+              oninput="changeGhosts(this.value)"
+            />
+            <output class="code-container">
+              <img class="imgGhosts imgGhost imgGhosts1" src="img/1ghosts.jpg" />
+              <img class="imgGhosts imgGhost imgGhosts2" src="img/2ghosts.jpg" />
+              <img class="imgGhosts imgGhost imgGhosts3" src="img/3ghosts.jpg" />
+              <img class="imgGhosts imgGhost imgGhosts4" src="img/4ghosts.jpg" />
+            </output>
+          </div>
+        </div>
+        <div class="randomDefinition">
+          <button id="randomDef" onclick="randomChange()">
+            choose ranomaly
+          </button>
+        </div>
+        <div class="buttonDef">
+          <button id="btnDefinition" onclick="startGame()">Start the game</button>
+        </div>
       </div>
 
       <div class="operation tab" id="game">

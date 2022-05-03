@@ -16,14 +16,17 @@ var large="blue";
 var small="green";
 var medium="red";
 var tabs;
+var tabActive="welcome"
 var ghosts;
+var numberOfGhosts=1;
+var timeforfinish=60;
 
 
 $(document).ready(function() {
 	context = canvas.getContext("2d");
 	$('#welcome').removeClass('operation');
 	tabs= document.querySelectorAll('.tab');
-	ghosts=document.querySelectorAll('.imgGhosts');
+	ghosts=document.querySelectorAll('.imgGhost');
 	Start();
 });
 
@@ -237,6 +240,10 @@ function UpdatePosition() {
 	board[shape.i][shape.j] = 2;
 	var currentTime = new Date();
 	time_elapsed = (currentTime - start_time) / 1000;
+	if (time_elapsed >=timeforfinish && tabActive==="game"){
+		console.log("finish game");
+		changeOperator("welcome");
+	}
 	if (score >= 20 && time_elapsed <= 10) {
 		pac_color = "green";
 	}
@@ -449,26 +456,90 @@ function setColor(val,type){
 		case "l":
 			large=val;
 	}
-	console.log(small);
 }
 
 
 
 function changeOperator(op){
-	console.log(op);
-	console.log(tabs);
 	tabs.forEach(t => t.classList.add('operation'));
-	console.log(document.querySelector(`#${op}`));
 	document.querySelector(`#${op}`).classList.remove('operation');
+	tabActive=op;
 	if (op==="definition"){
-		document.querySelector(`.imgGhosts1`).classList.remove('imgGhosts');
+		ghosts.forEach(t => t.classList.add('imgGhosts'));
+		document.querySelector(`.imgGhosts${numberOfGhosts}`).classList.remove('imgGhosts');
 	}
 }
 
+
+
 function changeGhosts(val){
 	ghosts.forEach(t => t.classList.add('imgGhosts'));
-	console.log(val);
-	console.log(document.querySelector(`.imgGhosts${val}`));
-	document.querySelector(`.imgGhosts${val}`).classList.remove('imgGhosts')
+	document.querySelector(`.imgGhosts${val}`).classList.remove('imgGhosts');
 	ghosts_remain=val;
+	numberOfGhosts=val;
 }
+
+
+function getRandomColor() {
+	var letters = '0123456789ABCDEF';
+	var color = '#';
+	for (var i = 0; i < 6; i++) {
+	  color += letters[Math.floor(Math.random() * 16)];
+	}
+	return color;
+  }
+
+function randomChange(){
+	//food
+	let numf=Math.floor(Math.random()*40)+50;
+	document.querySelector(".numberBalls").value=numf;
+	document.querySelector('.foodAns').textContent = numf;
+	timeforfinish=numf;
+
+	//time
+	let numt=Math.floor(Math.random()*240)+60;
+	document.querySelector(".finishtime").value=numt;
+	document.querySelector('.timeAns').textContent = numt;
+	timeforfinish=numt;
+
+	//colors 
+	let randomColor=getRandomColor();
+	document.querySelector("#colorSmall").value=randomColor;
+	setColor(randomColor,"s");
+	randomColor=getRandomColor();
+	document.querySelector("#colorMedium").value=randomColor;
+	setColor(randomColor,"m");
+	randomColor=getRandomColor();
+	document.querySelector("#colorLarge").value=randomColor;
+	setColor(randomColor,"l");
+
+	//ghosts
+	let numg=Math.floor(Math.random()*4)+1;
+	document.querySelector(".numberGhosts").value=numg;
+	ghosts.forEach(t => t.classList.add('imgGhosts'));
+	document.querySelector(`.imgGhosts${numg}`).classList.remove('imgGhosts');
+	ghosts_remain=numg;
+	numberOfGhosts=numg;
+}
+
+
+function setTime(val){
+	document.querySelector('.timeAns').textContent = val;
+	timeforfinish=val;
+}
+
+
+function startGame(){
+	food_remain=$('.numberBalls').val();
+	small=$('#colorSmall').val();
+	medium=$('#colorMedium').val();
+	large=$('#colorLarge').val();
+	timeforfinish=$('.finishtime').val();
+	ghosts_remain=$('.numberGhosts').val();
+	numberOfGhosts=ghosts_remain;
+	tabs.forEach(t => t.classList.add('operation'));
+	document.querySelector(`#game`).classList.remove('operation');
+	tabActive="game";
+	console.log(food_remain,small,medium,large,timeforfinish,ghosts_remain)
+	// Start();
+};
