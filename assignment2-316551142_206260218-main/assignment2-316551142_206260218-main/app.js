@@ -37,6 +37,7 @@ $(document).ready(function() {
 function Start() {
 	board = new Array();
 	score = 0;
+	ghostArray=[];
 	pac_color = "yellow";
 	var cnt = 100;
 	var pacman_remain = 1;
