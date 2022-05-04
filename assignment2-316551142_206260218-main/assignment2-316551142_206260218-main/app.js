@@ -7,7 +7,7 @@ var start_time;
 var time_elapsed;
 var interval;
 var food_remain=50;
-var ghosts_remain=1;
+var ghosts_remain;
 
 const users={};
 users["k"]="k";
@@ -20,6 +20,10 @@ var tabActive="welcome"
 var ghosts;
 var numberOfGhosts=1;
 var timeforfinish=60;
+var direct=4;
+var colorGhosts=["red","#FF9500","#00D5FF","#F2CFE8"];
+var ghostArray=[];
+var places=[[0,0],[0,10],[10,0],[10,10]];
 
 
 $(document).ready(function() {
@@ -27,7 +31,7 @@ $(document).ready(function() {
 	$('#welcome').removeClass('operation');
 	tabs= document.querySelectorAll('.tab');
 	ghosts=document.querySelectorAll('.imgGhost');
-	Start();
+	// Start();
 });
 
 function Start() {
@@ -40,8 +44,12 @@ function Start() {
 	var foodM=parseInt(food_remain*0.3);
 	var foodL=parseInt(food_remain*0.1);
 	start_time = new Date();
-	for (var i = 0; i < 10; i++) {
+	for (let i=0;i<10;i++){
 		board[i] = new Array();
+		for (let j=0;j<10;j++)
+			board[i][j]=0;
+	}
+	for (var i = 0; i < 10; i++) {
 		//put obstacles in (i=3,j=3) and (i=3,j=4) and (i=3,j=5), (i=6,j=1) and (i=6,j=2)
 		for (var j = 0; j < 10; j++) {
 			if (
@@ -57,15 +65,15 @@ function Start() {
 				if (randomNum <= (1.0 * food_remain) / cnt) {
 					food_remain--;
 					var rNum=Math.floor(Math.random()*2)+1;
-					if (rNum===1){
+					if (rNum===1 && foodS>0){
 						foodS--;
 						board[i][j] = 3;
 					}
-					if (rNum===2){
+					if (rNum===2 && foodL>0){
 						foodL--;
 						board[i][j] = 1;
 					}
-					if(rNum===3){
+					if(rNum===3 && foodM>0){
 						foodM--;
 						board[i][j] = 5;
 					}
@@ -74,13 +82,12 @@ function Start() {
 					shape.j = j;
 					pacman_remain--;
 					board[i][j] = 2;
-				} else {
-					board[i][j] = 0;
-				}
+				} 
 				cnt--;
 			}
 		}
 	}
+	console.log(foodL,foodM,foodS,ghosts_remain);
 	while (foodL > 0) {
 		var emptyCell = findRandomEmptyCell(board);
 		board[emptyCell[0]][emptyCell[1]] = 1;
@@ -103,8 +110,11 @@ function Start() {
 		var emptyCell = findRandomEmptyCell(board);
 		board[emptyCell[0]][emptyCell[1]] = 6;
 		ghosts_remain--;
+		let g=new Object();
+		g.i=emptyCell[0];
+		g.j=emptyCell[1];
+		ghostArray.push(g);
 	}
-	
 	keysDown = {};
 	addEventListener(
 		"keydown",
@@ -134,39 +144,80 @@ function findRandomEmptyCell(board) {
 }
 
 function GetKeyPressed() {
-	if (keysDown[38]) {
+	if (keysDown[keys["up"]]) {
 		return 1;
 	}
-	if (keysDown[40]) {
+	if (keysDown[keys["down"]]) {
 		return 2;
 	}
-	if (keysDown[37]) {
+	if (keysDown[keys["left"]]) {
 		return 3;
 	}
-	if (keysDown[39]) {
+	if (keysDown[keys["right"]]) {
 		return 4;
 	}
 }
 
-function Draw() {
+function Draw(x) {
 	canvas.width = canvas.width; //clean board
 	lblScore.value = score;
 	lblTime.value = time_elapsed;
+	colorGhosts=["red","#FF9500","#00D5FF","#F2CFE8"];
 	for (var i = 0; i < 10; i++) {
 		for (var j = 0; j < 10; j++) {
 			var center = new Object();
 			center.x = i * 60 + 30;
 			center.y = j * 60 + 30;
 			if (board[i][j] == 2) { //פאקמן
-				context.beginPath();
-				context.arc(center.x, center.y, 30, 0.15 * Math.PI, 1.85 * Math.PI); // half circle
-				context.lineTo(center.x, center.y);
-				context.fillStyle = pac_color; //color
-				context.fill();
-				context.beginPath();
-				context.arc(center.x + 5, center.y - 15, 5, 0, 2 * Math.PI); // circle
-				context.fillStyle = "black"; //color
-				context.fill();
+				switch(x){
+					case 1:
+						context.beginPath();
+						context.arc(center.x,center.y, 30, 1.35 * Math.PI, 1.65 * Math.PI,true); // half circle
+						context.lineTo(center.x,center.y);
+						context.fillStyle = "yellow"; //color
+						context.fill();
+						context.beginPath();
+						context.arc(center.x -14, center.y-3, 5, 0, 2 * Math.PI); // circle
+						context.fillStyle = "black"; //color
+						context.fill();
+						break;
+					case 2:
+						context.beginPath();
+						context.arc(center.x,center.y, 30, 0.35 * Math.PI, 0.65 * Math.PI,true); // half circle
+						context.lineTo(center.x,center.y);
+						context.fillStyle = "yellow"; //color
+						context.fill();
+						context.beginPath();
+						context.arc(center.x -14, center.y+2, 5, 0, 2 * Math.PI); // circle
+						context.fillStyle = "black"; //color
+						context.fill();
+						break;
+					case 3:
+						context.beginPath();
+						context.arc(center.x,center.y, 30, 0.85 * Math.PI, 1.15 * Math.PI,true); // half circle
+						context.lineTo(center.x,center.y);
+						context.fillStyle = "yellow"; //color
+						context.fill();
+						context.beginPath();
+						context.arc(center.x - 1, center.y - 15, 5, 0, 2 * Math.PI); // circle
+						context.fillStyle = "black"; //color
+						context.fill();
+						break;
+					case 4:
+						context.beginPath();
+						context.arc(center.x, center.y, 30, 0.15 * Math.PI, 1.85 * Math.PI); // half circle
+						context.lineTo(center.x, center.y);
+						context.fillStyle = pac_color; //color
+						context.fill();
+						context.beginPath();
+						context.arc(center.x + 5, center.y - 15, 5, 0, 2 * Math.PI); // circle
+						context.fillStyle = "black"; //color
+						context.fill();
+						break;
+					default:
+						console.log(x);
+				}
+				
 			} else if (board[i][j] == 1) {//אוכל
 				context.beginPath();
 				context.arc(center.x, center.y, 15, 0, 2 * Math.PI); // circle
@@ -195,11 +246,41 @@ function Draw() {
 				context.fillText('15', center.x-5, center.y+3);
 			} 
 			else if(board[i][j]==6){//מפלצות
-				// var img = new Image();
-				// img.onload = function() {
-				// 	context.drawImage(img, i+60,j+60,30,30);
-				//   };
-				//   img.src = 'img/1ghosts.jpg';
+				let c=colorGhosts[0];
+				colorGhosts.shift();
+				let feet =  4;
+				let head_radius = 20 * 0.8;//16
+				let foot_radius = head_radius / feet;//4
+				context.save();
+				context.strokeStyle =  "black";
+				context.fillStyle = c;
+			   context.lineWidth = 20 * 0.05;
+			   context.beginPath();
+               context.arc(center.x+12,center.y+16,foot_radius, 0, Math.PI);
+               context.arc(center.x+4,center.y+16,foot_radius, 0, Math.PI);
+               context.arc(center.x-4,center.y+16,foot_radius, 0, Math.PI);
+               context.arc(center.x-12,center.y+16,foot_radius, 0, Math.PI);
+			   context.lineTo(center.x-head_radius, center.y+20 - foot_radius);
+			   context.arc(center.x+0, center.y+head_radius - 20, head_radius, Math.PI, 2 * Math.PI);
+			   context.closePath();
+			   context.fill();
+			   context.stroke();
+			   
+			   context.fillStyle = "white";
+			   context.beginPath();
+			   context.arc(center.x+-head_radius / 2.5,center.y -head_radius / 2, head_radius / 3, 0, 2 * Math.PI);
+			   context.fill();
+			   context.beginPath();
+			   context.arc(center.x+head_radius / 3.5, center.y-head_radius / 2, head_radius / 3, 0, 2 * Math.PI);
+			   context.fill();
+							   
+				context.fillStyle = "black";
+			   context.beginPath();
+				context.arc(center.x-head_radius / 2, center.y-head_radius / 2.2, head_radius / 8, 0, 2 * Math.PI);
+			   context.fill();
+			   context.beginPath();
+			   context.arc(center.x+head_radius / 4, center.y-head_radius / 2.2, head_radius / 8, 0, 2 * Math.PI);
+			   context.fill();
 			}
 		}
 	}
@@ -207,26 +288,64 @@ function Draw() {
 
 function UpdatePosition() {
 	board[shape.i][shape.j] = 0;
-	var x = GetKeyPressed();
+	let x = GetKeyPressed();
 	if (x == 1) {
 		if (shape.j > 0 && board[shape.i][shape.j - 1] != 4) {
 			shape.j--;
+			direct=x;
 		}
 	}
 	if (x == 2) {
 		if (shape.j < 9 && board[shape.i][shape.j + 1] != 4) {
 			shape.j++;
+			direct=x;
 		}
 	}
 	if (x == 3) {
 		if (shape.i > 0 && board[shape.i - 1][shape.j] != 4) {
 			shape.i--;
+			direct=x;
 		}
 	}
 	if (x == 4) {
 		if (shape.i < 9 && board[shape.i + 1][shape.j] != 4) {
 			shape.i++;
+			direct=x;
 		}
+	}
+	for (let k=0;k<parseInt(numberOfGhosts);k++){
+		board[ghostArray[k].i][ghostArray[k].j]=0;
+		let dx=ghostArray[k].i-shape.i;
+		let dy=ghostArray[k].j-shape.j;
+		if (Math.abs(dx)<Math.abs(dy) && dx!=0){
+			if (dx>0 && board[ghostArray[k].i - 1][ghostArray[k].j] != 4)
+				ghostArray[k].i--;
+			else if(board[ghostArray[k].i + 1][ghostArray[k].j] != 4)
+				ghostArray[k].i++;
+		}
+		else{
+			if (dy==0){
+				if (dx>0 && board[ghostArray[k].i - 1][ghostArray[k].j] != 4)
+					ghostArray[k].i--;
+				else if(board[ghostArray[k].i + 1][ghostArray[k].j] != 4)
+					ghostArray[k].i++;
+			}
+			else{
+				if (dy>0 && board[ghostArray[k].i][ghostArray[k].j-1] != 4)
+					ghostArray[k].j--;
+				else if(board[ghostArray[k].i][ghostArray[k].j+1] != 4)
+					ghostArray[k].j++;
+			}
+		}
+		if(ghostArray[k].i==shape.i &&ghostArray[k].j==shape.j){
+			score-=10;
+			for (let a=0;a<parseInt(numberOfGhosts);a++){
+				ghostArray[a].i=places[a][0];
+				ghostArray[a].j=places[a][1];
+			}
+			break;
+		}
+		board[ghostArray[k].i][ghostArray[k].j]=6;
 	}
 	if (board[shape.i][shape.j] == 1) {
 		score+=25;
@@ -240,10 +359,10 @@ function UpdatePosition() {
 	board[shape.i][shape.j] = 2;
 	var currentTime = new Date();
 	time_elapsed = (currentTime - start_time) / 1000;
-	if (time_elapsed >=timeforfinish && tabActive==="game"){
-		console.log("finish game");
-		changeOperator("welcome");
-	}
+	// if (time_elapsed >=timeforfinish && tabActive==="game"){
+	// 	console.log("finish game");
+	// 	changeOperator("welcome");
+	// }
 	if (score >= 20 && time_elapsed <= 10) {
 		pac_color = "green";
 	}
@@ -251,7 +370,7 @@ function UpdatePosition() {
 		window.clearInterval(interval);
 		window.alert("Game completed");
 	} else {
-		Draw();
+		Draw(direct);
 	}
 }
 
@@ -358,7 +477,6 @@ function CheckDetails(){
 	if(!$('#username').val()){
 		$('#username').css("border-color", "#FF0000");
 		$('#username').css("border-radius", "10px");
-		$('#username').prop('placeholder',"Please fill in the required field");
 		confirm=false;
 	}
 	if($('#day').val()==="day" || $('#year').val()==="year" || $('#month').val()==="month"){
@@ -366,27 +484,22 @@ function CheckDetails(){
 	}
 	if(!$('#fullname').val()){
 		$('#fullname').css("border-color", "#FF0000");
-		$('#fullname').prop('placeholder',"Please fill in the required field");
 		confirm=false;
 	}
 	if(!$('#email').val()){
 		$('#email').css("border-color", "#FF0000");
-		$('#email').prop('placeholder',"Please fill in the required field");
 		confirm=false;
 	}
 	let passw1=/[A-Za-z]/g;
 	let passw2=/[1-9]/g; 
 	if ( $('#password').val().match(passw1)==null || $('#password').val().match(passw2)==null){
-		$('#password').prop('placeholder',"Password must contain at least one character and one digit");
 		confirm=false;
 	}
 	if($('#password').val().length<6){
 		$('#password').val('');
-		$('#password').prop('placeholder',"Password must contain at least six characters");
 	}
 	if(!$('#password').val()){
 		$('#password').css("border-color", "#FF0000");
-		$('#password').prop('placeholder',"Please fill in the required field");
 		confirm=false;
 	}
 	if ($('#fullname').val().match(passw2)!==null)
@@ -403,6 +516,9 @@ function CheckDetails(){
 	}
 }
 
+function startWrite(field){
+	$(`#${field}`).css("border-color", "black");
+}
 
 
 function login(){
@@ -540,6 +656,5 @@ function startGame(){
 	tabs.forEach(t => t.classList.add('operation'));
 	document.querySelector(`#game`).classList.remove('operation');
 	tabActive="game";
-	console.log(food_remain,small,medium,large,timeforfinish,ghosts_remain)
-	// Start();
+	Start();
 };

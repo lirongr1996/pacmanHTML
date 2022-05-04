@@ -62,20 +62,26 @@
       <div class="operation tab" id="register">
         <label>User name:</label>
         <div class="filed">
-          <textarea class="reg" id="username"></textarea>
+          <textarea class="reg" id="username" onclick="startWrite('username')"></textarea>
         </div>
         <label>Password:</label>
+        <div class="tooltip">*
+          <span class="tooltiptext">The password must be at least 6 characters in length containing one letter and one number</span>
+        </div>
         <div class="filed">
-          <textarea class="reg" id="password"></textarea>
+          <textarea class="reg" id="password"  onclick="startWrite('password')"></textarea>
         </div>
         
         <label>Full name:</label>
         <div class="filed">
-          <textarea class="reg" id="fullname"></textarea>
+          <textarea class="reg" id="fullname" onclick="startWrite('fullname')"></textarea></textarea>
         </div>
         <label>Email:</label>
+        <div class="tooltip">*
+          <span class="tooltiptext" >The email must be a valid email address</span>
+        </div>
         <div class="filed">
-          <textarea class="reg" id="email"></textarea>
+          <textarea class="reg" id="email" onclick="startWrite('email')"></textarea>
         </div>
         <label>Birthday:</label>
         <div class="select-date">
