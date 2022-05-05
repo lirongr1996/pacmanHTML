@@ -23,7 +23,7 @@ var timeforfinish=60;
 var direct=4;
 var colorGhosts=["red","#FF9500","#00D5FF","#F2CFE8"];
 var ghostArray=[];
-var places=[[0,0],[0,10],[10,0],[10,10]];
+var places=[[0,0],[0,9],[9,0],[9,9]];
 
 
 $(document).ready(function() {
@@ -37,6 +37,7 @@ $(document).ready(function() {
 function Start() {
 	board = new Array();
 	score = 0;
+	ghostArray=[];
 	pac_color = "yellow";
 	var cnt = 100;
 	var pacman_remain = 1;
@@ -87,7 +88,6 @@ function Start() {
 			}
 		}
 	}
-	console.log(foodL,foodM,foodS,ghosts_remain);
 	while (foodL > 0) {
 		var emptyCell = findRandomEmptyCell(board);
 		board[emptyCell[0]][emptyCell[1]] = 1;
@@ -106,13 +106,20 @@ function Start() {
 		foodM--;
 		food_remain--;
 	}
-	while(ghosts_remain>0){
-		var emptyCell = findRandomEmptyCell(board);
-		board[emptyCell[0]][emptyCell[1]] = 6;
-		ghosts_remain--;
+	// while(ghosts_remain>0){
+	// 	var emptyCell = findRandomEmptyCell(board);
+	// 	board[emptyCell[0]][emptyCell[1]] = 6;
+	// 	ghosts_remain--;
+	// 	let g=new Object();
+	// 	g.i=emptyCell[0];
+	// 	g.j=emptyCell[1];
+	// 	ghostArray.push(g);
+	// }
+	for (let q=0;q<ghosts_remain;q++){
 		let g=new Object();
-		g.i=emptyCell[0];
-		g.j=emptyCell[1];
+		board[places[q][0]][places[q][1]] = 6;
+		g.i=places[q][0];
+		g.j=places[q][1];
 		ghostArray.push(g);
 	}
 	keysDown = {};
@@ -130,7 +137,7 @@ function Start() {
 		},
 		false
 	);
-	interval = setInterval(UpdatePosition, 250);
+	interval = setInterval(UpdatePosition, 500);
 }
 
 function findRandomEmptyCell(board) {
@@ -340,8 +347,10 @@ function UpdatePosition() {
 		if(ghostArray[k].i==shape.i &&ghostArray[k].j==shape.j){
 			score-=10;
 			for (let a=0;a<parseInt(numberOfGhosts);a++){
+				board[ghostArray[a].i][ghostArray[a].j]=0;
 				ghostArray[a].i=places[a][0];
 				ghostArray[a].j=places[a][1];
+				board[ghostArray[a].i][ghostArray[a].j]=6;
 			}
 			break;
 		}
@@ -363,15 +372,15 @@ function UpdatePosition() {
 	// 	console.log("finish game");
 	// 	changeOperator("welcome");
 	// }
-	if (score >= 20 && time_elapsed <= 10) {
-		pac_color = "green";
-	}
-	if (score == 50) {
-		window.clearInterval(interval);
-		window.alert("Game completed");
-	} else {
+	// if (score >= 20 && time_elapsed <= 10) {
+	// 	pac_color = "green";
+	// }
+	// if (score == 50) {
+	// 	window.clearInterval(interval);
+	// 	window.alert("Game completed");
+	// } else {
 		Draw(direct);
-	}
+	// }
 }
 
 
