@@ -24,6 +24,10 @@ var direct=4;
 var colorGhosts=["red","#FF9500","#00D5FF","#F2CFE8"];
 var ghostArray=[];
 var places=[[0,0],[0,9],[9,0],[9,9]];
+var borders=[[3,3],[3,4],[3,5],[6,1],[6,2]];
+var startKey=false;
+var lives=5;
+var cherries =new Object();
 
 
 $(document).ready(function() {
@@ -50,17 +54,37 @@ function Start() {
 		for (let j=0;j<10;j++)
 			board[i][j]=0;
 	}
+	let x=Math.floor(Math.random()*8)+1;
+	let y=Math.floor(Math.random()*8)+1;
+	while(borders.some(r=> r.every((value, index) => [x,y][index] == value))){
+		x=Math.floor(Math.random()*8)+1;
+		y=Math.floor(Math.random()*8)+1;
+	}
+	shape.i = x;
+	shape.j = y;
+	board[x][y] = 2;
+
+
+	x=Math.floor(Math.random()*8)+1;
+	y=Math.floor(Math.random()*8)+1;
+	while(borders.some(r=> r.every((value, index) => [x,y][index] == value))){
+		x=Math.floor(Math.random()*8)+1;
+		y=Math.floor(Math.random()*8)+1;
+	}
+	cherries.i=x;
+	cherries.j=y;
+	cherries.eaten=false;
 	for (var i = 0; i < 10; i++) {
 		//put obstacles in (i=3,j=3) and (i=3,j=4) and (i=3,j=5), (i=6,j=1) and (i=6,j=2)
 		for (var j = 0; j < 10; j++) {
-			if (
-				(i == 3 && j == 3) ||
-				(i == 3 && j == 4) ||
-				(i == 3 && j == 5) ||
-				(i == 6 && j == 1) ||
-				(i == 6 && j == 2)
+			if (borders.some(r=> r.every((value, index) => [i,j][index] == value))
+				// (i == 3 && j == 3) ||
+				// (i == 3 && j == 4) ||
+				// (i == 3 && j == 5) ||
+				// (i == 6 && j == 1) ||
+				// (i == 6 && j == 2)
 			) {
-				board[i][j] = 4; //גבולות
+				board[i][j] = 4; 
 			} else {
 				var randomNum = Math.random();
 				if (randomNum <= (1.0 * food_remain) / cnt) {
@@ -78,11 +102,11 @@ function Start() {
 						foodM--;
 						board[i][j] = 5;
 					}
-				} else if (randomNum < (1.0 * (pacman_remain + food_remain)) / cnt) {
-					shape.i = i;
-					shape.j = j;
-					pacman_remain--;
-					board[i][j] = 2;
+				// } else if ((i>1 && j>1 && i<9 && j<9) &&randomNum < (1.0 * (pacman_remain + food_remain)) / cnt) {
+				// 	shape.i = i;
+				// 	shape.j = j;
+				// 	pacman_remain--;
+				// 	board[i][j] = 2;
 				} 
 				cnt--;
 			}
@@ -106,20 +130,12 @@ function Start() {
 		foodM--;
 		food_remain--;
 	}
-	// while(ghosts_remain>0){
-	// 	var emptyCell = findRandomEmptyCell(board);
-	// 	board[emptyCell[0]][emptyCell[1]] = 6;
-	// 	ghosts_remain--;
-	// 	let g=new Object();
-	// 	g.i=emptyCell[0];
-	// 	g.j=emptyCell[1];
-	// 	ghostArray.push(g);
-	// }
 	for (let q=0;q<ghosts_remain;q++){
 		let g=new Object();
-		board[places[q][0]][places[q][1]] = 6;
 		g.i=places[q][0];
 		g.j=places[q][1];
+		g.color=colorGhosts[q];
+		g.num=q+6;
 		ghostArray.push(g);
 	}
 	keysDown = {};
@@ -169,10 +185,10 @@ function Draw(x) {
 	canvas.width = canvas.width; //clean board
 	lblScore.value = score;
 	lblTime.value = time_elapsed;
-	colorGhosts=["red","#FF9500","#00D5FF","#F2CFE8"];
+	lblLives.value=lives;
+	var center = new Object();
 	for (var i = 0; i < 10; i++) {
 		for (var j = 0; j < 10; j++) {
-			var center = new Object();
 			center.x = i * 60 + 30;
 			center.y = j * 60 + 30;
 			if (board[i][j] == 2) { //פאקמן
@@ -252,110 +268,205 @@ function Draw(x) {
 				context.fillStyle = "white";
 				context.fillText('15', center.x-5, center.y+3);
 			} 
-			else if(board[i][j]==6){//מפלצות
-				let c=colorGhosts[0];
-				colorGhosts.shift();
-				let feet =  4;
-				let head_radius = 20 * 0.8;//16
-				let foot_radius = head_radius / feet;//4
-				context.save();
-				context.strokeStyle =  "black";
-				context.fillStyle = c;
-			   context.lineWidth = 20 * 0.05;
-			   context.beginPath();
-               context.arc(center.x+12,center.y+16,foot_radius, 0, Math.PI);
-               context.arc(center.x+4,center.y+16,foot_radius, 0, Math.PI);
-               context.arc(center.x-4,center.y+16,foot_radius, 0, Math.PI);
-               context.arc(center.x-12,center.y+16,foot_radius, 0, Math.PI);
-			   context.lineTo(center.x-head_radius, center.y+20 - foot_radius);
-			   context.arc(center.x+0, center.y+head_radius - 20, head_radius, Math.PI, 2 * Math.PI);
-			   context.closePath();
-			   context.fill();
-			   context.stroke();
-			   
-			   context.fillStyle = "white";
-			   context.beginPath();
-			   context.arc(center.x+-head_radius / 2.5,center.y -head_radius / 2, head_radius / 3, 0, 2 * Math.PI);
-			   context.fill();
-			   context.beginPath();
-			   context.arc(center.x+head_radius / 3.5, center.y-head_radius / 2, head_radius / 3, 0, 2 * Math.PI);
-			   context.fill();
-							   
-				context.fillStyle = "black";
-			   context.beginPath();
-				context.arc(center.x-head_radius / 2, center.y-head_radius / 2.2, head_radius / 8, 0, 2 * Math.PI);
-			   context.fill();
-			   context.beginPath();
-			   context.arc(center.x+head_radius / 4, center.y-head_radius / 2.2, head_radius / 8, 0, 2 * Math.PI);
-			   context.fill();
-			}
+			// else if(board[i][j]>=6){//מפלצות
+				
+			// }
 		}
 	}
+	for (let i=0;i<numberOfGhosts;i++){
+		center.x = ghostArray[i].i * 60 + 30;
+		center.y = ghostArray[i].j * 60 + 30;
+		let feet =  4;
+		let head_radius = 20 * 0.8;//16
+		let foot_radius = head_radius / feet;//4
+		context.save();
+		context.strokeStyle =  "black";
+		context.fillStyle = ghostArray[i].color;
+		context.lineWidth = 20 * 0.05;
+		context.beginPath();
+        context.arc(center.x+12,center.y+16,foot_radius, 0, Math.PI);
+        context.arc(center.x+4,center.y+16,foot_radius, 0, Math.PI);
+        context.arc(center.x-4,center.y+16,foot_radius, 0, Math.PI);
+        context.arc(center.x-12,center.y+16,foot_radius, 0, Math.PI);
+		context.lineTo(center.x-head_radius, center.y+20 - foot_radius);
+		context.arc(center.x+0, center.y+head_radius - 20, head_radius, Math.PI, 2 * Math.PI);
+		context.closePath();
+		context.fill();
+		context.stroke();
+		
+		context.fillStyle = "white";
+		context.beginPath();
+		context.arc(center.x+-head_radius / 2.5,center.y -head_radius / 2, head_radius / 3, 0, 2 * Math.PI);
+		context.fill();
+		context.beginPath();
+		context.arc(center.x+head_radius / 3.5, center.y-head_radius / 2, head_radius / 3, 0, 2 * Math.PI);
+		context.fill();
+							   
+		context.fillStyle = "black";
+		context.beginPath();
+		context.arc(center.x-head_radius / 2, center.y-head_radius / 2.2, head_radius / 8, 0, 2 * Math.PI);
+		context.fill();
+		context.beginPath();
+		context.arc(center.x+head_radius / 4, center.y-head_radius / 2.2, head_radius / 8, 0, 2 * Math.PI);
+		context.fill();
+	}
+	if (cherries.eaten==false){
+		center.x = cherries.i * 60 + 30;
+		center.y = cherries.j * 60 + 30;
+		context.clearRect(cherries.i * 60,cherries.j * 60,60,60);
+		context.beginPath();
+		let radius=10;
+		context.moveTo(center.x-10, center.y);
+    	context.bezierCurveTo(center.x, center.y-35, center.x+15, center.y-25, center.x+20, center.y-20);
+    	context.lineWidth = 1;
+		context.strokeStyle = '#006600';
+    	context.stroke();
+		context.beginPath();
+    	context.arc(center.x-10, center.y, radius, 0, 2 * Math.PI, false);
+    	context.fillStyle = 'red';
+    	context.fill();
+     	context.lineWidth = 1;
+    	context.strokeStyle = '#000000';
+    	context.stroke();
+		context.beginPath();
+      	context.moveTo(center.x,center.y+4);
+      	context.bezierCurveTo(center.x, center.y-28, center.x+10, center.y-25, center.x+20, center.y-20);
+      	context.lineWidth = 1;
+	  	context.strokeStyle = '#006600';
+      	context.stroke();
+
+      	context.beginPath();
+      	context.arc(center.x,center.y+4, radius, 0, 2 * Math.PI, false);
+      	context.fillStyle = 'red';
+      	context.fill();
+ 		context.lineWidth = 1;
+      	context.strokeStyle = '#000000';
+      	context.stroke();
+	}
+}
+
+function checkGhost(x,y){
+	for (let i=0;i<numberOfGhosts;i++){
+		if (ghostArray[i].i==x && ghostArray[i].j==y)
+			return false;
+	}
+	return true;
 }
 
 function UpdatePosition() {
 	board[shape.i][shape.j] = 0;
 	let x = GetKeyPressed();
+	if (x==undefined &&startKey)
+		x=direct;
 	if (x == 1) {
 		if (shape.j > 0 && board[shape.i][shape.j - 1] != 4) {
 			shape.j--;
 			direct=x;
+			startKey=true;
 		}
 	}
 	if (x == 2) {
 		if (shape.j < 9 && board[shape.i][shape.j + 1] != 4) {
 			shape.j++;
 			direct=x;
+			startKey=true;
 		}
 	}
 	if (x == 3) {
 		if (shape.i > 0 && board[shape.i - 1][shape.j] != 4) {
 			shape.i--;
 			direct=x;
+			startKey=true;
 		}
 	}
 	if (x == 4) {
 		if (shape.i < 9 && board[shape.i + 1][shape.j] != 4) {
 			shape.i++;
 			direct=x;
+			startKey=true;
 		}
 	}
 	for (let k=0;k<parseInt(numberOfGhosts);k++){
-		board[ghostArray[k].i][ghostArray[k].j]=0;
 		let dx=ghostArray[k].i-shape.i;
 		let dy=ghostArray[k].j-shape.j;
-		if (Math.abs(dx)<Math.abs(dy) && dx!=0){
-			if (dx>0 && board[ghostArray[k].i - 1][ghostArray[k].j] != 4)
-				ghostArray[k].i--;
-			else if(board[ghostArray[k].i + 1][ghostArray[k].j] != 4)
-				ghostArray[k].i++;
-		}
-		else{
-			if (dy==0){
-				if (dx>0 && board[ghostArray[k].i - 1][ghostArray[k].j] != 4)
+		let r=Math.random();
+		let locations={};
+		if (ghostArray[k].i>0 &&  board[ghostArray[k].i-1][ghostArray[k].j]!=4 && checkGhost(ghostArray[k].i-1,ghostArray[k].j))
+			locations["left"]=[-1,0];
+		if (ghostArray[k].i<9 &&  board[ghostArray[k].i+1][ghostArray[k].j]!=4 && checkGhost(ghostArray[k].i+1,ghostArray[k].j))
+			locations["right"]=[1,0];
+		if (ghostArray[k].j>0 &&  board[ghostArray[k].i][ghostArray[k].j-1]!=4 && checkGhost(ghostArray[k].i,ghostArray[k].j-1))
+			locations["up"]=[0,-1];
+		if (ghostArray[k].j<9 &&  board[ghostArray[k].i][ghostArray[k].j+1]!=4 && checkGhost(ghostArray[k].i,ghostArray[k].j+1))
+			locations["down"]=[0,1];
+		if (r<0.5){
+			if (Math.abs(dx)<Math.abs(dy) && dx!=0){
+				if (dx>0 && locations["left"]!=undefined)
 					ghostArray[k].i--;
-				else if(board[ghostArray[k].i + 1][ghostArray[k].j] != 4)
+				else if (locations["right"]!=undefined)
 					ghostArray[k].i++;
 			}
 			else{
-				if (dy>0 && board[ghostArray[k].i][ghostArray[k].j-1] != 4)
+				if (dy>0 && locations["up"]!=undefined)
 					ghostArray[k].j--;
-				else if(board[ghostArray[k].i][ghostArray[k].j+1] != 4)
+				else if (locations["down"]!=undefined)
 					ghostArray[k].j++;
 			}
 		}
+		else{
+			let index=Math.floor(Math.random()*Object.keys(locations).length);
+			let key=Object.keys(locations)[index];
+			ghostArray[k].i+=locations[key][0];
+			ghostArray[k].j+=locations[key][1];
+		}
+
+
 		if(ghostArray[k].i==shape.i &&ghostArray[k].j==shape.j){
+			if(ghostArray[k].num==6){ //ghost's special
+				score-=10;
+				lives--;
+			}
 			score-=10;
+			lives--;
+			if (lives==0){
+				window.alert("Game over");
+			}
+			startKey=false;
 			for (let a=0;a<parseInt(numberOfGhosts);a++){
-				board[ghostArray[a].i][ghostArray[a].j]=0;
 				ghostArray[a].i=places[a][0];
 				ghostArray[a].j=places[a][1];
-				board[ghostArray[a].i][ghostArray[a].j]=6;
 			}
+			let m=Math.floor(Math.random()*8)+1;
+			let n=Math.floor(Math.random()*8)+1;
+			while(board[m][n]!=0){
+				m=Math.floor(Math.random()*8)+1;
+				n=Math.floor(Math.random()*8)+1;
+			}
+			shape.i = m;
+			shape.j = n;
 			break;
 		}
-		board[ghostArray[k].i][ghostArray[k].j]=6;
 	}
+
+	let locations={};
+	if (cherries.i>0 &&  board[cherries.i-1][cherries.j]!=4)
+		locations["left"]=[-1,0];
+	if (cherries.i<9 &&  board[cherries.i+1][cherries.j]!=4)
+		locations["right"]=[1,0];
+	if (cherries.j>0 &&  board[cherries.i][cherries.j-1]!=4)
+		locations["up"]=[0,-1];
+	if (cherries.j<9 &&  board[cherries.i][cherries.j+1]!=4)
+		locations["down"]=[0,1];
+	let index=Math.floor(Math.random()*Object.keys(locations).length);
+	let key=Object.keys(locations)[index];
+	cherries.i+=locations[key][0];
+	cherries.j+=locations[key][1];
+	if(cherries.i==shape.i &&cherries.j==shape.j){
+		score+=50;
+		cherries.eaten=true;
+	}
+
+
 	if (board[shape.i][shape.j] == 1) {
 		score+=25;
 	}
