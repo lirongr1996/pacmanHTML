@@ -28,6 +28,11 @@ var borders=[[3,3],[3,4],[3,5],[6,1],[6,2]];
 var startKey=false;
 var lives=5;
 var cherries =new Object();
+var medicineLives=new Object();
+var medicineGhost=new Object();
+var countfreeGhost=10;
+var hiddenGhost=false;
+var eye=false;
 
 
 $(document).ready(function() {
@@ -38,10 +43,22 @@ $(document).ready(function() {
 	// Start();
 });
 
+function randomPosition(){
+	let x=Math.floor(Math.random()*8)+1;
+	let y=Math.floor(Math.random()*8)+1;
+	while(borders.some(r=> r.every((value, index) => [x,y][index] == value))){
+		x=Math.floor(Math.random()*8)+1;
+		y=Math.floor(Math.random()*8)+1;
+	}
+	return [x,y];
+}
+
 function Start() {
 	board = new Array();
 	score = 0;
 	ghostArray=[];
+	countfreeGhost=10;
+	startKey=false;
 	pac_color = "yellow";
 	var cnt = 100;
 	var pacman_remain = 1;
@@ -54,36 +71,31 @@ function Start() {
 		for (let j=0;j<10;j++)
 			board[i][j]=0;
 	}
-	let x=Math.floor(Math.random()*8)+1;
-	let y=Math.floor(Math.random()*8)+1;
-	while(borders.some(r=> r.every((value, index) => [x,y][index] == value))){
-		x=Math.floor(Math.random()*8)+1;
-		y=Math.floor(Math.random()*8)+1;
-	}
-	shape.i = x;
-	shape.j = y;
-	board[x][y] = 2;
+	
+	let pos=randomPosition();
+	shape.i = pos[0];
+	shape.j = pos[1];
+	board[pos[0]][pos[1]] = 2;
 
-
-	x=Math.floor(Math.random()*8)+1;
-	y=Math.floor(Math.random()*8)+1;
-	while(borders.some(r=> r.every((value, index) => [x,y][index] == value))){
-		x=Math.floor(Math.random()*8)+1;
-		y=Math.floor(Math.random()*8)+1;
-	}
-	cherries.i=x;
-	cherries.j=y;
+	pos=randomPosition();
+	cherries.i=pos[0];
+	cherries.j=pos[1];
 	cherries.eaten=false;
+	cherries.last=null;
+
+	pos=randomPosition();
+	medicineLives.i=pos[0];
+	medicineLives.j=pos[1];
+	medicineLives.eaten=false;
+
+	pos=randomPosition();
+	medicineGhost.i=pos[0];
+	medicineGhost.j=pos[1];
+	medicineGhost.eaten=false;
+
 	for (var i = 0; i < 10; i++) {
-		//put obstacles in (i=3,j=3) and (i=3,j=4) and (i=3,j=5), (i=6,j=1) and (i=6,j=2)
 		for (var j = 0; j < 10; j++) {
-			if (borders.some(r=> r.every((value, index) => [i,j][index] == value))
-				// (i == 3 && j == 3) ||
-				// (i == 3 && j == 4) ||
-				// (i == 3 && j == 5) ||
-				// (i == 6 && j == 1) ||
-				// (i == 6 && j == 2)
-			) {
+			if (borders.some(r=> r.every((value, index) => [i,j][index] == value))) {
 				board[i][j] = 4; 
 			} else {
 				var randomNum = Math.random();
@@ -102,11 +114,6 @@ function Start() {
 						foodM--;
 						board[i][j] = 5;
 					}
-				// } else if ((i>1 && j>1 && i<9 && j<9) &&randomNum < (1.0 * (pacman_remain + food_remain)) / cnt) {
-				// 	shape.i = i;
-				// 	shape.j = j;
-				// 	pacman_remain--;
-				// 	board[i][j] = 2;
 				} 
 				cnt--;
 			}
@@ -136,6 +143,7 @@ function Start() {
 		g.j=places[q][1];
 		g.color=colorGhosts[q];
 		g.num=q+6;
+		g.last=null;
 		ghostArray.push(g);
 	}
 	keysDown = {};
@@ -153,7 +161,7 @@ function Start() {
 		},
 		false
 	);
-	interval = setInterval(UpdatePosition, 500);
+	interval = setInterval(UpdatePosition, 600);
 }
 
 function findRandomEmptyCell(board) {
@@ -268,12 +276,9 @@ function Draw(x) {
 				context.fillStyle = "white";
 				context.fillText('15', center.x-5, center.y+3);
 			} 
-			// else if(board[i][j]>=6){//מפלצות
-				
-			// }
 		}
 	}
-	for (let i=0;i<numberOfGhosts;i++){
+	for (let i=1;i<numberOfGhosts;i++){
 		center.x = ghostArray[i].i * 60 + 30;
 		center.y = ghostArray[i].j * 60 + 30;
 		let feet =  4;
@@ -282,6 +287,9 @@ function Draw(x) {
 		context.save();
 		context.strokeStyle =  "black";
 		context.fillStyle = ghostArray[i].color;
+		if(hiddenGhost==true){
+			context.fillStyle="#0108D5";
+		}
 		context.lineWidth = 20 * 0.05;
 		context.beginPath();
         context.arc(center.x+12,center.y+16,foot_radius, 0, Math.PI);
@@ -310,6 +318,70 @@ function Draw(x) {
 		context.arc(center.x+head_radius / 4, center.y-head_radius / 2.2, head_radius / 8, 0, 2 * Math.PI);
 		context.fill();
 	}
+
+	//special ghost
+	center.x = ghostArray[0].i * 60 + 30;
+	center.y = ghostArray[0].j * 60 + 30;
+	let head_radius = 15;
+	let foot_radius = 5;
+	context.save();
+	context.strokeStyle =  "black";
+	if(hiddenGhost==true){
+		context.fillStyle="#0108D5";
+	}
+	else
+	context.fillStyle =getRandomColor();
+	context.lineWidth = 20 * 0.05;
+	context.beginPath();
+	context.arc(center.x+10,center.y+16,foot_radius, 0, Math.PI);
+	context.arc(center.x,center.y+16,foot_radius, 0, Math.PI);
+	context.arc(center.x-10,center.y+16,foot_radius, 0, Math.PI);
+	context.lineTo(center.x-head_radius, center.y+20 - foot_radius);
+	context.arc(center.x+0, center.y+head_radius - 20, head_radius, Math.PI, 2 * Math.PI);
+	context.closePath();
+	context.fill();
+	context.stroke();
+
+	context.fillStyle = "white";
+	context.beginPath();
+	context.arc(center.x,center.y -head_radius / 4, head_radius / 1.5, 0, 2 * Math.PI);
+	context.fill();
+	
+	context.fillStyle = "black";
+	context.beginPath();
+	if (eye){
+		context.arc(center.x-head_radius / 6, center.y-head_radius / 7, head_radius / 3.5, 0, 2 * Math.PI);
+		eye=!eye;
+	}
+	else{
+		context.arc(center.x+head_radius / 6, center.y-head_radius / 7, head_radius / 3.5, 0, 2 * Math.PI);
+		eye=!eye;
+	}
+	context.fill();
+		
+	// context.fillStyle = "white";
+	// context.beginPath();
+	// context.arc(center.x+-head_radius / 2.5,center.y -head_radius / 7, head_radius / 3, 0, 2 * Math.PI);
+	// context.fill();
+	// context.beginPath();
+	// context.arc(center.x+head_radius / 3.5, center.y-head_radius / 7, head_radius / 3, 0, 2 * Math.PI);
+	// context.fill();
+    // context.beginPath();
+	// context.arc(center.x-1, center.y-head_radius / 1.4, head_radius / 3, 0, 2 * Math.PI);
+	// context.fill();
+							   
+	// context.fillStyle = "black";
+	// context.beginPath();
+	// context.arc(center.x-head_radius / 2, center.y-head_radius / 7.2, head_radius / 8, 0, 2 * Math.PI);
+	// context.fill();
+	// context.beginPath();
+	// context.arc(center.x+head_radius / 4, center.y-head_radius / 7.2, head_radius / 8, 0, 2 * Math.PI);
+	// context.fill();
+    // context.beginPath();
+	// context.arc(center.x-1.7, center.y-head_radius / 1.4, head_radius / 8, 0, 2 * Math.PI);
+	// context.fill();
+
+
 	if (cherries.eaten==false){
 		center.x = cherries.i * 60 + 30;
 		center.y = cherries.j * 60 + 30;
@@ -342,6 +414,30 @@ function Draw(x) {
  		context.lineWidth = 1;
       	context.strokeStyle = '#000000';
       	context.stroke();
+	}
+	if (medicineLives.eaten==false){
+		center.x = medicineLives.i * 60 + 30;
+		center.y = medicineLives.j * 60 + 30;
+		context.clearRect(medicineLives.i * 60,medicineLives.j * 60,60,60);
+		context.beginPath();
+		context.ellipse(center.x, center.y, 10, 20, Math.PI / 4, 0,  Math.PI,true);
+		context.fillStyle='red';
+		context.fill();
+		context.ellipse(center.x, center.y, 10, 20, Math.PI / 4, 0, 2* Math.PI,true);
+		context.fillStyle='black';
+		context.stroke();
+	}
+	if (medicineGhost.eaten==false){
+		center.x = medicineGhost.i * 60 + 30;
+		center.y = medicineGhost.j * 60 + 30;
+		context.clearRect(medicineGhost.i * 60,medicineGhost.j * 60,60,60);
+		context.beginPath();
+		context.ellipse(center.x, center.y, 10, 20, Math.PI / 4, 0,  Math.PI,true);
+		context.fillStyle='green';
+		context.fill();
+		context.ellipse(center.x, center.y, 10, 20, Math.PI / 4, 0, 2* Math.PI,true);
+		context.fillStyle='black';
+		context.stroke();
 	}
 }
 
@@ -391,27 +487,61 @@ function UpdatePosition() {
 		let dy=ghostArray[k].j-shape.j;
 		let r=Math.random();
 		let locations={};
-		if (ghostArray[k].i>0 &&  board[ghostArray[k].i-1][ghostArray[k].j]!=4 && checkGhost(ghostArray[k].i-1,ghostArray[k].j))
+		if (ghostArray[k].i>0 &&  board[ghostArray[k].i-1][ghostArray[k].j]!=4  && checkGhost(ghostArray[k].i-1,ghostArray[k].j))
 			locations["left"]=[-1,0];
-		if (ghostArray[k].i<9 &&  board[ghostArray[k].i+1][ghostArray[k].j]!=4 && checkGhost(ghostArray[k].i+1,ghostArray[k].j))
+		if (ghostArray[k].i<9 &&  board[ghostArray[k].i+1][ghostArray[k].j]!=4  && checkGhost(ghostArray[k].i+1,ghostArray[k].j))
 			locations["right"]=[1,0];
-		if (ghostArray[k].j>0 &&  board[ghostArray[k].i][ghostArray[k].j-1]!=4 && checkGhost(ghostArray[k].i,ghostArray[k].j-1))
+		if (ghostArray[k].j>0 &&  board[ghostArray[k].i][ghostArray[k].j-1]!=4  && checkGhost(ghostArray[k].i,ghostArray[k].j-1))
 			locations["up"]=[0,-1];
-		if (ghostArray[k].j<9 &&  board[ghostArray[k].i][ghostArray[k].j+1]!=4 && checkGhost(ghostArray[k].i,ghostArray[k].j+1))
+		if (ghostArray[k].j<9 &&  board[ghostArray[k].i][ghostArray[k].j+1]!=4  && checkGhost(ghostArray[k].i,ghostArray[k].j+1))
 			locations["down"]=[0,1];
-		if (r<0.5){
-			if (Math.abs(dx)<Math.abs(dy) && dx!=0){
-				if (dx>0 && locations["left"]!=undefined)
-					ghostArray[k].i--;
-				else if (locations["right"]!=undefined)
-					ghostArray[k].i++;
+
+		// if ((r<=0.5 || dx<=2 || dy<=2) && (dx!=dy)){
+		// 	if (Math.abs(dx)<Math.abs(dy) && dx>1){
+		// 		if (dx>0 && locations["left"]!=undefined){
+		// 			ghostArray[k].i--;
+		// 		}
+		// 		else if (locations["right"]!=undefined){
+		// 			ghostArray[k].i++;
+		// 		}
+		// 	}
+		// 	else{
+		// 		if (dy>0 && locations["up"]!=undefined){
+		// 			ghostArray[k].j--;
+		// 		}
+		// 		else if (locations["down"]!=undefined){
+		// 			ghostArray[k].j++;
+		// 		}
+		// 	}
+		// }
+		// else{
+		// 	let index=Math.floor(Math.random()*Object.keys(locations).length);
+		// 	console.log(index);
+		// 	let key=Object.keys(locations)[index];
+		// 	ghostArray[k].i+=locations[key][0];
+		// 	ghostArray[k].j+=locations[key][1];
+		// }
+
+		if (Math.abs(dx)<Math.abs(dy) && Math.abs(dx)>1){
+			if (dx>0 && locations["left"]!=undefined){
+				ghostArray[k].i--;
 			}
-			else{
-				if (dy>0 && locations["up"]!=undefined)
-					ghostArray[k].j--;
-				else if (locations["down"]!=undefined)
-					ghostArray[k].j++;
+			else if (locations["right"]!=undefined){
+				ghostArray[k].i++;
 			}
+		}
+		else if(Math.abs(dy)>1){
+			if (locations["up"]!=undefined){
+				ghostArray[k].j--;
+			}
+			else if (locations["down"]!=undefined){
+				ghostArray[k].j++;
+			}
+		}
+		else if (Math.abs(dx)<2 && Math.abs(dy)<2){
+			console.log(dx, dy);
+			ghostArray[k].i=shape.i;
+			ghostArray[k].j=shape.j;
 		}
 		else{
 			let index=Math.floor(Math.random()*Object.keys(locations).length);
@@ -421,7 +551,7 @@ function UpdatePosition() {
 		}
 
 
-		if(ghostArray[k].i==shape.i &&ghostArray[k].j==shape.j){
+		if(ghostArray[k].i==shape.i &&ghostArray[k].j==shape.j && hiddenGhost==false){
 			if(ghostArray[k].num==6){ //ghost's special
 				score-=10;
 				lives--;
@@ -429,7 +559,9 @@ function UpdatePosition() {
 			score-=10;
 			lives--;
 			if (lives==0){
-				window.alert("Game over");
+				window.alert("Loser!");
+				window.clearInterval(interval);
+				changeOperator("welcome");
 			}
 			startKey=false;
 			for (let a=0;a<parseInt(numberOfGhosts);a++){
@@ -466,6 +598,21 @@ function UpdatePosition() {
 		cherries.eaten=true;
 	}
 
+	if (hiddenGhost){
+		countfreeGhost--;
+	}
+	if (countfreeGhost==0)
+		hiddenGhost=false;
+
+	if (medicineLives.i==shape.i && medicineLives.j==shape.j && medicineLives.eaten==false){
+		lives++;
+		medicineLives.eaten=true;
+	}
+	if (medicineGhost.i==shape.i && medicineGhost.j==shape.j && medicineGhost.eaten==false){
+		hiddenGhost=true;
+		medicineGhost.eaten=true;
+	}
+
 
 	if (board[shape.i][shape.j] == 1) {
 		score+=25;
@@ -479,19 +626,16 @@ function UpdatePosition() {
 	board[shape.i][shape.j] = 2;
 	var currentTime = new Date();
 	time_elapsed = (currentTime - start_time) / 1000;
-	// if (time_elapsed >=timeforfinish && tabActive==="game"){
-	// 	console.log("finish game");
-	// 	changeOperator("welcome");
-	// }
-	// if (score >= 20 && time_elapsed <= 10) {
-	// 	pac_color = "green";
-	// }
-	// if (score == 50) {
-	// 	window.clearInterval(interval);
-	// 	window.alert("Game completed");
-	// } else {
-		Draw(direct);
-	// }
+	if (time_elapsed >=timeforfinish && tabActive==="game"){
+		if (score<100)
+			window.alert(`You are better than ${score} points!`);
+		else
+			window.alert("Winner!!!");
+		window.clearInterval(interval);
+		changeOperator("welcome");
+	}
+
+	Draw(direct);
 }
 
 
@@ -633,6 +777,8 @@ function CheckDetails(){
 
 	if(confirm){
 		users[$('#username').val()]=$('#password').val();
+		tabs.forEach(t => t.classList.add('operation'));
+		document.querySelector(`#login`).classList.remove('operation');
 	}
 }
 
@@ -656,7 +802,8 @@ function login(){
 	}
 
 	if (confirm && users[$('#usernamelogin').val()]===$('#passwordlogin').val()){
-		console.log("yes");
+		tabs.forEach(t => t.classList.add('operation'));
+		document.querySelector(`#definition`).classList.remove('operation');
 	}
 	else{
 		window.alert("The user or the password are incorrect");
