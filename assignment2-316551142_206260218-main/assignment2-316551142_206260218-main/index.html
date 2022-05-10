@@ -16,44 +16,43 @@
               href="#"
               class="active AWelcome"
               onclick="changeOperator('welcome')"
-              style=" padding: 30px;color: white;text-decoration:none;font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;font-size: xxx-large; "
+              style=" padding: 10px;color: white;text-decoration:none;font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;font-size: xx-large; "
               >welcome</a
             >
             <a
               href="#"
               class="active ARegister"
               onclick="changeOperator('register')"
-              style=" padding: 30px;color: white;text-decoration:none;font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;font-size: xxx-large; "
+              style=" padding: 10px;color: white;text-decoration:none;font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;font-size: xx-large; "
               >register</a
             >
             <a href="#" class="active ALogin" onclick="changeOperator('login')"
-            style=" padding: 30px;color: white;text-decoration:none;font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;font-size: xxx-large; "
+            style=" padding: 10px;color: white;text-decoration:none;font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;font-size: xx-large; "
             >login</a
             >
             <a
               href="#"
               class="active ADefinition"
               onclick="changeOperator('definition')"
-              style=" padding: 30px;color: white;text-decoration:none;font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;font-size: xxx-large; "
+              style=" padding: 10px;color: white;text-decoration:none;font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;font-size: xx-large; "
               >definition</a
             >
             <a href="#" class="active AAbout" onclick="changeOperator('about')"
-            style=" padding: 30px;color: white;text-decoration:none;font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;font-size: xxx-large; "
+            style=" padding: 10px;color: white;text-decoration:none;font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;font-size: xx-large; "
             >about</a
             >
             <a href="#" class="active AGame" onclick="changeOperator('game')"
-            style=" padding: 30px;color: white;text-decoration:none;font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;font-size: xxx-large; "
+            style=" padding: 10px;color: white;text-decoration:none;font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;font-size: xx-large; "
             >game</a
             >
       </div>
       <div class="operation tab" id="welcome">
-        
-        <img src="img/PACMAN.gif" style=" width:100%; height: 1059px;">
+        <img src="img/PACMAN.gif" style=" width:100%; height: 504px;">
         <button id="btnRegister"  class="btn" style="top: 70%;
-        left:50%;" onclick="changeOperator('register')">
+        left:60%;" onclick="changeOperator('register')">
             Register
          </button>
-         <button id="btnLogin" class="btn" style="top: 85%;left:50%;" onclick="changeOperator('login')">Login
+         <button id="btnLogin" class="btn" style="top: 70%;left:40%;" onclick="changeOperator('login')">Login
          </button>
       </div>
 
@@ -61,45 +60,51 @@
         <label>User name:</label>
         <div class="filed">
           <textarea class="reg" id="username" onclick="startWrite('username')"></textarea>
-        </div>
-        <label>Password:</label>
+        </div>  
         <div class="tooltip">*
+          <label>Password:</label>
           <span class="tooltiptext">The password must be at least 6 characters in length containing one letter and one number</span>
         </div>
         <div class="filed">
           <textarea class="reg" id="password"  onclick="startWrite('password')"></textarea>
         </div>
-        
         <label>Full name:</label>
         <div class="filed">
           <textarea class="reg" id="fullname" onclick="startWrite('fullname')"></textarea></textarea>
-        </div>
-        <label>Email:</label>
+        </div>       
         <div class="tooltip">*
+          <label>Email:</label>
           <span class="tooltiptext" >The email must be a valid email address</span>
-        </div>
+        </div>       
         <div class="filed">
           <textarea class="reg" id="email" onclick="startWrite('email')"></textarea>
         </div>
         <label>Birthday:</label>
-        <div class="select-date">
+        <br>
+        <input type="date" id="birthday" name="birthday" style="width: 95%;  height: 100%;text-align: left;font-size: xx-large;">
+        <!-- <div class="select-date">
           <select id="year" name="yyyy" onchange="change_year(this)"></select>
           <select id="month" name="mm" onchange="change_month(this)"></select>
           <select id="day" name="dd"></select>
-        </div>
+        </div> -->
+        <br>
+        <br>
         <button id="submit" onclick="CheckDetails()">Submit</button>
       </div>
-
+      <br><br><br>
       <div class="operation tab" id="login">
         <label>User name:</label>
         <div class="filed">
           <textarea id="usernamelogin"></textarea>
         </div>
+        <br>
         <label>Password:</label>
         <div class="filed">
           <textarea id="passwordlogin"></textarea>
         </div>
-        <button id="login" onclick="login()">login</button>
+        <br>
+        <br>
+        <button id="log" onclick="login()">login</button>
       </div>
 
       <div id="about" class="operation tab" >
@@ -202,12 +207,12 @@
           </div>
         </div>
         <div class="randomDefinition">
-          <button id="randomDef" onclick="randomChange()">
+          <button id="randomDef" style="margin-left: 200px;" onclick="randomChange()">
             choose ranomaly
           </button>
         </div>
         <div class="buttonDef">
-          <button id="btnDefinition" onclick="startGame()">Start the game</button>
+          <button id="btnDefinition"  style="margin-left: 200px;margin-top: 10px;" onclick="startGame()">Start the game</button>
         </div>
       </div>
 

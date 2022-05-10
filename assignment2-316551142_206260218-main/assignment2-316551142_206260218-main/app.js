@@ -461,61 +461,6 @@ function UpdatePositionGhost(){
 			if (ghostArray[k].j<7 &&  board[ghostArray[k].i][ghostArray[k].j+1]!=4 && checkGhost(ghostArray[k].i,ghostArray[k].j+1))
 				locations["down"]=[0,1];	
 		}
-		// if ((r<=0.5 || dx<=2 || dy<=2) && (dx!=dy)){
-		// 	if (Math.abs(dx)<Math.abs(dy) && dx>1){
-		// 		if (dx>0 && locations["left"]!=undefined){
-		// 			ghostArray[k].i--;
-		// 		}
-		// 		else if (locations["right"]!=undefined){
-		// 			ghostArray[k].i++;
-		// 		}
-		// 	}
-		// 	else{
-		// 		if (dy>0 && locations["up"]!=undefined){
-		// 			ghostArray[k].j--;
-		// 		}
-		// 		else if (locations["down"]!=undefined){
-		// 			ghostArray[k].j++;
-		// 		}
-		// 	}
-		// }
-		// else{
-		// 	let index=Math.floor(Math.random()*Object.keys(locations).length);
-		// 	console.log(index);
-		// 	let key=Object.keys(locations)[index];
-		// 	ghostArray[k].i+=locations[key][0];
-		// 	ghostArray[k].j+=locations[key][1];
-		// }
-
-
-		// if (Math.abs(dx)<Math.abs(dy) && Math.abs(dx)>1){
-		// 	if (dx>0 && locations["left"]!=undefined){
-		// 		ghostArray[k].i--;
-		// 	}
-		// 	else if (locations["right"]!=undefined){
-		// 		ghostArray[k].i++;
-		// 	}
-		// }
-		// else if(Math.abs(dy)>1){
-		// 	if (locations["up"]!=undefined){
-		// 		ghostArray[k].j--;
-		// 	}
-		// 	else if (locations["down"]!=undefined){
-		// 		ghostArray[k].j++;
-		// 	}
-		// }
-		// else if (Math.abs(dx)<2 && Math.abs(dy)<2){
-		// 	console.log(dx, dy);
-		// 	ghostArray[k].i=shape.i;
-		// 	ghostArray[k].j=shape.j;
-		// }
-		// else{
-		// 	let index=Math.floor(Math.random()*Object.keys(locations).length);
-		// 	let key=Object.keys(locations)[index];
-		// 	ghostArray[k].i+=locations[key][0];
-		// 	ghostArray[k].j+=locations[key][1];
-		// }
-
 		let index;
 		let key;
 		let pos;
@@ -531,12 +476,9 @@ function UpdatePositionGhost(){
 		}
 		ghostArray[k].i+=pos[0];
 		ghostArray[k].j+=pos[1];
-		ghostArray[k].last=key;
-
-		
+		ghostArray[k].last=key;		
 	}
 }
-
 
 function UpdatePositionChrries(){
 	let locations={};
@@ -551,8 +493,7 @@ function UpdatePositionChrries(){
 	let index=Math.floor(Math.random()*Object.keys(locations).length);
 	let key=Object.keys(locations)[index];
 	cherries.i+=locations[key][0];
-	cherries.j+=locations[key][1];
-	
+	cherries.j+=locations[key][1];	
 }
 
 function UpdatePosition() {
@@ -587,8 +528,7 @@ function UpdatePosition() {
 			direct=x;
 			startKey=true;
 		}
-	}
-	
+	}	
 	for (let k=0;k<numberOfGhosts;k++){
 		if(ghostArray[k].i==shape.i &&ghostArray[k].j==shape.j && hiddenGhost==false){
 			if(ghostArray[k].num==6){ //ghost's special
@@ -622,7 +562,6 @@ function UpdatePosition() {
 			board[shape.i][shape.j]=2;
 		}
 	}
-
 	if(cherries.eaten==false && ((cherries.i==shape.i &&cherries.j==shape.j)||
 	(cherries.i==shape.i && cherries.j==shape.j+1 && direct==1)||
 	(cherries.i==shape.i && cherries.j==shape.j-1 && direct==2)||
@@ -646,8 +585,6 @@ function UpdatePosition() {
 		hiddenGhost=true;
 		medicineGhost.eaten=true;
 	}
-
-
 	if (board[shape.i][shape.j] == 1) {
 		score+=25;
 	}
@@ -670,13 +607,8 @@ function UpdatePosition() {
 		window.clearInterval(intervalGhost);
 		changeOperator("welcome");
 	}
-
 	Draw(direct);
 }
-
-
-
-
 
 var Days = [31,28,31,30,31,30,31,31,30,31,30,31];// index => month [0-11]
 $(document).ready(function(){
