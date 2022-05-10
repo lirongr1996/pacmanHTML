@@ -848,10 +848,10 @@ function login(){
 
 
 function setKey(direction){
-	$('#myModal').css("display","block");
+	$('#pressKey').css("display","block");
 	$(document).one('keydown', (event) => {
 		keys[direction]=event.keyCode;
-		$('#myModal').css("display","none");
+		$('#pressKey').css("display","none");
 		let n='#'+direction;
 		document.querySelector(n).innerHTML=event.key;
 	});
@@ -880,14 +880,16 @@ function setColor(val,type){
 
 
 function changeOperator(op){
-	tabs.forEach(t => t.classList.add('operation'));
+	if (op!="about")
+		tabs.forEach(t => t.classList.add('operation'));
 	document.querySelector(`#${op}`).classList.remove('operation');
 	if (tabActive==="game"){
 		window.clearInterval(interval);
 		window.clearInterval(intervalChrries);
 		window.clearInterval(intervalGhost);
 	}
-	tabActive=op;
+	if (op!="about")
+		tabActive=op;
 	if (op==="definition"){
 		ghosts.forEach(t => t.classList.add('imgGhosts'));
 		document.querySelector(`.imgGhosts${numberOfGhosts}`).classList.remove('imgGhosts');
@@ -966,3 +968,22 @@ function startGame(){
 	tabActive="game";
 	Start();
 };
+
+
+
+window.onclick = function(event) {
+	if (event.target == document.getElementById("about")) {
+		document.querySelector("#about").classList.add('operation');
+	}
+	if (event.target == document.getElementById("pressKey")){
+		$('#pressKey').css("display","none");
+	}
+}
+
+function closeAbout() {
+	document.querySelector("#about").classList.add('operation');
+}
+
+function closeKey() {
+	document.querySelector("#pressKey").style.display = "none";
+}

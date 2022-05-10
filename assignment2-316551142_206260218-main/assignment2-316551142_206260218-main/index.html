@@ -7,52 +7,40 @@
   </head>
 
   <body>
+    <header>
+
+    </header>
     <div class="operstions">
       <div class="chooseOperation">
-        <ul id="menu">
-          <li>
             <a
               href="#"
               class="active AWelcome"
               onclick="changeOperator('welcome')"
               >welcome</a
             >
-          </li>
-          <li>
             <a
               href="#"
               class="active ARegister"
               onclick="changeOperator('register')"
               >register</a
             >
-          </li>
-          <li>
             <a href="#" class="active ALogin" onclick="changeOperator('login')"
               >login</a
             >
-          </li>
-          <li>
             <a
               href="#"
               class="active ADefinition"
               onclick="changeOperator('definition')"
               >definition</a
             >
-          </li>
-          <li>
             <a href="#" class="active AAbout" onclick="changeOperator('about')"
               >about</a
             >
-          </li>
-          <li>
             <a href="#" class="active AGame" onclick="changeOperator('game')"
               >game</a
             >
-          </li>
-        </ul>
       </div>
       <div class="operation tab" id="welcome">
-        <!-- <img src="img/file"> -->
         <button id="btnRegister" onclick="changeOperator('register')">
           Register
         </button>
@@ -104,21 +92,29 @@
         <button id="login" onclick="login()">login</button>
       </div>
 
+      <div id="about" class="operation tab" >
+        <div id="modelAbout">
+          <span class="closeAbout" onclick="closeAbout()">&times;</span>
+          <p>aboutjfgh
+
+            vcvdfgfd
+            gsdgd
+            gsgd
+          </p>
+        </div>
+      </div>
       <div class="operation tab" id="definition">
         <button id="left" onclick="setKey('left')">&larr;</button>
         <button id="right" onclick="setKey('right')">&rarr;</button>
         <button id="up" onclick="setKey('up')">&uarr;</button>
         <button id="down" onclick="setKey('down')">&darr;</button>
 
-        <div
-          id="myModal"
-          class="modal"
-          style="display: none; z-index: 1; position: fixed"
-        >
-          <span class="close">&times;</span>
-          <p>Press a key..</p>
+        <div id="pressKey">
+        <div id="myModal" class="modal">
+          <span class="close" onclick="closeKey()">&times;</span>
+          <p id="textKey">Press new key...</p>
         </div>
-
+      </div>
         <div class="foodNum">
           <div class="ranges">
             <input
@@ -223,5 +219,8 @@
         </div>
       </div>
     </div>
+    <footer>
+      
+    </footer>
   </body>
 </html>
