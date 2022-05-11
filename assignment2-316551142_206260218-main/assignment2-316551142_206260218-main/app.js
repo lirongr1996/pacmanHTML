@@ -768,7 +768,6 @@ function CheckDetails(){
 	let confirm=true;
 	if(!$('#username').val()){
 		$('#username').css("border-color", "#FF0000");
-		$('#username').css("border-radius", "10px");
 		confirm=false;
 	}
 	if($('#day').val()==="day" || $('#year').val()==="year" || $('#month').val()==="month"){
@@ -876,6 +875,10 @@ function setColor(val,type){
 function clearTextLogin(){
 	$('#usernamelogin').val('');
 	$('#passwordlogin').val('');
+	$(`#usernamelogin`).css("border-color", "black");
+	$(`#passwordlogin`).css("border-color", "black");
+	$('#usernamelogin').prop('placeholder',"");
+	$('#passwordlogin').prop('placeholder',"");
 }
 
 function clearTextRegister(){
@@ -883,6 +886,10 @@ function clearTextRegister(){
 	$('#password').val('');
 	$('#fullname').val('');
 	$('#email').val('');
+	$(`#username`).css("border-color", "black");
+	$(`#password`).css("border-color", "black");
+	$(`#fullname`).css("border-color", "black");
+	$(`#email`).css("border-color", "black");
 }
 
 
@@ -974,6 +981,16 @@ function startGame(){
 	timeforfinish=$('.finishtime').val();
 	ghosts_remain=$('.numberGhosts').val();
 	numberOfGhosts=ghosts_remain;
+	$('#myUp').text(document.querySelector("#up").innerHTML);
+	$('#myDown').text(document.querySelector("#down").innerHTML);
+	$('#myLeft').text(document.querySelector("#left").innerHTML);
+	$('#myRight').text(document.querySelector("#right").innerHTML);
+	$('#myFood').text(`Food: ${food_remain}`);
+	$('#mySmall').css("color",small);
+	$('#myMedium').css("color",medium);
+	$('#myLarge').css("color",large);
+	$('#myTime').text(`Game's duration: ${timeforfinish}`);
+	$('#myGhost').text(`Ghosts: ${ghosts_remain}`);
 	tabs.forEach(t => t.classList.add('operation'));
 	document.querySelector(`#game`).classList.remove('operation');
 	tabActive="game";
