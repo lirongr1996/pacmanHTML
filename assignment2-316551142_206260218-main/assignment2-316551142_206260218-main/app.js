@@ -565,9 +565,7 @@ function UpdatePosition() {
 			score-=10;
 			lives--;
 			if (lives<=0){
-				objCherry.src="audio/death.wav";
-				objCherry.load();
-				objCherry.play();
+				objDeath.play();
 				$('#over').css("display","block");
 				window.clearInterval(interval);
 				window.clearInterval(intervalChrries);
@@ -591,10 +589,7 @@ function UpdatePosition() {
 			shape.i = m;
 			shape.j = n;
 			board[shape.i][shape.j]=2;
-			objCherry.pause();
-			objCherry.src="audio/ghosteat.wav";
-			objCherry.load();
-			objCherry.play();
+			objGhosteat.play();
 		}
 	}
 	if(cherries.eaten==false && ((cherries.i==shape.i &&cherries.j==shape.j)||
@@ -604,8 +599,6 @@ function UpdatePosition() {
 	(cherries.j==shape.j && cherries.i==shape.i-1 && direct==4))){
 		score+=50;
 		cherries.eaten=true;
-		objCherry.src="audio/cherry.wav";
-		objCherry.load();
 		objCherry.play();
 	}
 
@@ -625,32 +618,23 @@ function UpdatePosition() {
 	if (countfreeGhost==26 && medicineGhost.i==shape.i && medicineGhost.j==shape.j && medicineGhost.eaten==false){
 		hiddenGhost=true;
 		medicineGhost.eaten=true;
-		// objCherry.src="audio/freeghost.wav";
-		// objCherry.load();
 		objFreeghost.play();
-		objCherry.pause();
 	}
 	if (board[shape.i][shape.j] == 1) {
 		score+=25;
 		if (!hiddenGhost){
-		objCherry.src="audio/eatfood.wav";
-		objCherry.load();
-		objCherry.play();
+		objEatfood.play();
 		}
 	}
 	if (board[shape.i][shape.j] == 3) {
 		if (!hiddenGhost){
-			objCherry.src="audio/eatfood.wav";
-			objCherry.load();
-			objCherry.play();
+			objEatfood.play();
 			}
 		score+=5;
 	}
 	if (board[shape.i][shape.j] == 5) {
 		if (!hiddenGhost){
-			objCherry.src="audio/eatfood.wav";
-			objCherry.load();
-			objCherry.play();
+			objEatfood.play();
 			}
 		score+=15;
 	}
@@ -805,6 +789,7 @@ function clearTextRegister(){
 
 
 function changeOperator(op){
+	$('#over').css("display","none");
 	if (op!="about")
 		tabs.forEach(t => t.classList.add('operation'));
 	document.querySelector(`#${op}`).classList.remove('operation');
@@ -917,9 +902,6 @@ window.onclick = function(event) {
 	if (event.target == document.getElementById("pressKey")){
 		$('#pressKey').css("display","none");
 	}
-	if (event.target == document.getElementById("over")){
-		$('#over').css("display","none");
-	}
 }
 
 function closeAbout() {
@@ -928,9 +910,10 @@ function closeAbout() {
 
 function closeKey() {
 	document.querySelector("#pressKey").style.display = "none";
+	
 }
 
 function closeGameOver(){
-	console.log("yes");
 	document.querySelector("#over").style.display="none";
+	changeOperator("welcome");
 }
