@@ -30,11 +30,17 @@ var lives=5;
 var cherries =new Object();
 var medicineLives=new Object();
 var medicineGhost=new Object();
-var countfreeGhost=10;
+var countfreeGhost=20;
 var hiddenGhost=false;
 var eye=false;
 var intervalGhost;
 var intervalChrries;
+var objWellcom;
+var objCherry;
+var objDeath;
+var objEatfood;
+var objFreeghost;
+var objGhosteat;
 
 
 $(document).ready(function() {
@@ -42,6 +48,12 @@ $(document).ready(function() {
 	$('#welcome').removeClass('operation');
 	tabs= document.querySelectorAll('.tab');
 	ghosts=document.querySelectorAll('.imgGhost');
+	objWellcom=document.getElementById("start").loop;
+	objCherry=document.getElementById("cherry");
+	objDeath=document.getElementById("death");
+	objEatfood=document.getElementById("eatfood");
+	objFreeghost=document.getElementById("freeghost");
+	objGhosteat=document.getElementById("ghosteat");
 	// Start();
 });
 
@@ -56,6 +68,7 @@ function randomPosition(){
 }
 
 function Start() {
+	// objWellcom.play();
 	board = new Array();
 	score = 0;
 	ghostArray=[];
@@ -203,7 +216,7 @@ function Draw(x) {
 
 	}
 	document.getElementById('lblLives').innerHTML="Lives:"+l ;
-	context.strokeStyle="black";
+	context.strokeStyle="white";
 	context.strokeRect(0,0,960,480);
 	var center = new Object();
 	for (var i = 0; i < 16; i++) {
@@ -297,9 +310,12 @@ function Draw(x) {
 		context.ellipse(center.x, center.y, 10, 20, Math.PI / 4, 0,  Math.PI,true);
 		context.fillStyle='red';
 		context.fill();
-		context.ellipse(center.x, center.y, 10, 20, Math.PI / 4, 0, 2* Math.PI,true);
-		context.fillStyle='black';
-		context.stroke();
+		context.closePath();
+		context.beginPath();
+		context.ellipse(center.x, center.y, 10, 20, Math.PI / 4, 0,  Math.PI);
+		context.fillStyle='white';
+		context.fill();
+		context.closePath();
 	}
 	if (medicineGhost.eaten==false){
 		center.x = medicineGhost.i * 60 + 30;
@@ -309,9 +325,12 @@ function Draw(x) {
 		context.ellipse(center.x, center.y, 10, 20, Math.PI / 4, 0,  Math.PI,true);
 		context.fillStyle='green';
 		context.fill();
-		context.ellipse(center.x, center.y, 10, 20, Math.PI / 4, 0, 2* Math.PI,true);
-		context.fillStyle='black';
-		context.stroke();
+		context.closePath();
+		context.beginPath();
+		context.ellipse(center.x, center.y, 10, 20, Math.PI / 4, 0,  Math.PI);
+		context.fillStyle='white';
+		context.fill();
+		context.closePath();
 	}
 
 
@@ -824,7 +843,6 @@ function clearTextLogin(){
 }
 
 function clearTextRegister(){
-	console.log("yes");
 	$('#username').val('');
 	$('#password').val('');
 	$('#fullname').val('');

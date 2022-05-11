@@ -7,6 +7,12 @@
   </head>
 
   <body>
+    <audio id="start" preload="auto"><source src="audio/wellcom.wav"/></audio>
+    <audio id="cherry" preload="auto"><source src="audio/cherry.wav"/></audio>
+    <audio id="death" preload="auto"><source src="audio/death.wav"/></audio>
+    <audio id="eatfood" preload="auto"><source src="audio/eatfood.wav"/></audio>
+    <audio id="freeghost" preload="auto"><source src="audio/freeghost.wav"/></audio>
+    <audio id="ghosteat" preload="auto"><source src="audio/ghosteat.wav"/></audio>
     <header style="background-color: #006473;">
       <img src="img/logo3.png" style="padding-left: 50px;; width: 200px;;">
     </header>
@@ -103,18 +109,19 @@
         </div>
       </div>
       <div class="operation tab" id="definition">
-        <div id="changeKey">
+        <div id="changeKey" >
+          <label>Move keys:</label>
           <div>
-            <button id="up" onclick="setKey('up')">&uarr;</button>
+            <button id="up" style="margin-left:150px;" onclick="setKey('up')">&uarr;</button>
           </div>
           <div class="outdiv">
-        <button id="left" onclick="setKey('left')">&larr;</button>
+        <button id="left" style="margin-left:120px;" onclick="setKey('left')">&larr;</button>
         <div class="space">
         </div>
         <button id="right" onclick="setKey('right')">&rarr;</button>
     </div>
       <div>
-        <button id="down" onclick="setKey('down')">&darr;</button>
+        <button id="down" style="margin-left:150px;" onclick="setKey('down')">&darr;</button>
       </div>
       </div>
         <div id="pressKey">
@@ -123,10 +130,12 @@
           <p id="textKey">Press new key...</p>
         </div>
       </div>
-      
+      <br>
         <div class="foodNum">
-          <label>Food number: </label>
           <div class="ranges">
+            <output class="code-container"
+            >Food number: <span class="foodAns">70</span>
+          </output>
             <input
               class="numberBalls"
               type="range"
@@ -136,39 +145,54 @@
               value="70"
               oninput="changeNumber(this.value)"
             />
-            <output class="code-container"
-              ><span class="foodAns">70</span>
-            </output>
+      
           </div>
         </div>
-        <div class="colorBalls">
+        <br>        <br>
+
+        <label> 
+          select ball's color:
+        </label> 
+        <br>
+        <div style="margin-left:70px;;">
+          Small ball:
           <input
             type="color"
-            style="border-radius: 100%"
+            style="border-radius: 100%;margin-left: 10px;"
             oninput="setColor(this.value, 's')"
             id="colorSmall"
             name="favcolor"
             value="#ff0000"
+            
           />
+          </div>
+          <div style="margin-left:70px;;">
+            Medium ball:
+            <input
+              type="color"
+              style="border-radius: 100%"
+              oninput="setColor(this.value, 'm')"
+              id="colorMedium"
+              name="favcolor"
+              value="#ff0000"
+            />
+          </div>
+          <div style="margin-left:70px;;">
+          Large ball:
           <input
             type="color"
-            style="border-radius: 100%"
-            oninput="setColor(this.value, 'm')"
-            id="colorMedium"
-            name="favcolor"
-            value="#ff0000"
-          />
-          <input
-            type="color"
-            style="border-radius: 100%"
+            style="border-radius: 100%;margin-left: 10px;"
             oninput="setColor(this.value, 'l')"
             id="colorLarge"
             name="favcolor"
             value="#ff0000"
           />
         </div>
+        <br>
         <div class="timeGame">
-          <label>time</label>
+          <output class="code-container"
+          >Time to the game: <span class="timeAns">60</span>
+        </output>
           <input
               class="finishtime"
               type="range"
@@ -178,11 +202,11 @@
               value="60"
               oninput="setTime(this.value)"
             />
-            <output class="code-container"
-              >Time to the game: <span class="timeAns">60</span>
-            </output>
+   
         </div>
+        <br>
         <div class="GhostNum">
+          <label>Ghost number:</label>
           <div class="ranges">
             <input
               class="numberGhosts"
@@ -201,13 +225,11 @@
             </output>
           </div>
         </div>
-        <div class="randomDefinition">
-          <button id="randomDef" style="margin-left: 200px;" onclick="randomChange()">
+        <div class="buttons" style="margin-left: 15%;">
+          <button id="randomDef" style="top:75%;" onclick="randomChange()">
             choose ranomaly
           </button>
-        </div>
-        <div class="buttonDef">
-          <button id="btnDefinition"  style="margin-left: 200px;margin-top: 10px;" onclick="startGame()">Start the game</button>
+          <button id="btnDefinition"  style="top:75%; left:40%;" onclick="startGame()">Start the game</button>
         </div>
       </div>
 
@@ -226,15 +248,15 @@
     </div>
     <footer>
       <label>Liron Groer</label>
-      <a class="mail" href="mailto:groer@gost.bgu.ac.il" onclick="clickSend">
+      <a class="mail" style="text-decoration: none;" href="mailto:groer@gost.bgu.ac.il" onclick="clickSend">
         <img id="mail" src="img/mail.jpg">
       </a>
       <label>Shir Indaporker</label>
-      <a class="mail" href="mailto:shirinda@gost.bgu.ac.il" onclick="clickSend">
+      <a class="mail" style="text-decoration: none;" href="mailto:shirinda@gost.bgu.ac.il" onclick="clickSend">
         <img id="mail" src="img/mail.jpg">
       </a>
       <label>Anna Kolkovsky</label>
-      <a class="mail" href="mailto:annakol@post.bgu.ac.il" onclick="clickSend">
+      <a class="mail" style="text-decoration: none;" href="mailto:annakol@post.bgu.ac.il" onclick="clickSend">
         <img id="mail" src="img/mail.jpg">
       </a>
     </footer>
