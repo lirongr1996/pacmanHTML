@@ -197,7 +197,12 @@ function Draw(x) {
 	canvas.width = canvas.width; //clean board
 	lblScore.value = score;
 	lblTime.value = time_elapsed;
-	lblLives.value=lives;
+	l="";
+	for (var i=0; i<lives;i++){
+		l+="&#128151";
+
+	}
+	document.getElementById('lblLives').innerHTML="Lives:"+l ;
 	context.strokeStyle="black";
 	context.strokeRect(0,0,960,480);
 	var center = new Object();
