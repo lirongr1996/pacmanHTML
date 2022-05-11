@@ -746,6 +746,7 @@ function CheckDetails(){
 	if(confirm){
 		users[$('#username').val()]=$('#password').val();
 		tabs.forEach(t => t.classList.add('operation'));
+		clearTextRegister();
 		document.querySelector(`#login`).classList.remove('operation');
 	}
 }
@@ -771,7 +772,10 @@ function login(){
 
 	if (confirm && users[$('#usernamelogin').val()]===$('#passwordlogin').val()){
 		tabs.forEach(t => t.classList.add('operation'));
+		clearTextLogin();
 		document.querySelector(`#definition`).classList.remove('operation');
+		ghosts.forEach(t => t.classList.add('imgGhosts'));
+		document.querySelector(`.imgGhosts${numberOfGhosts}`).classList.remove('imgGhosts');
 	}
 	else{
 		window.alert("The user or the password are incorrect");
@@ -809,6 +813,17 @@ function setColor(val,type){
 	}
 }
 
+function clearTextLogin(){
+	$('#usernamelogin').val('');
+	$('#passwordlogin').val('');
+}
+
+function clearTextRegister(){
+	$('#username').val('');
+	$('#password').val('');
+	$('#fullname').val('');
+	$('#email').val('');
+}
 
 
 function changeOperator(op){
@@ -820,12 +835,15 @@ function changeOperator(op){
 		window.clearInterval(intervalChrries);
 		window.clearInterval(intervalGhost);
 	}
+	if (tabActive=="login"){
+		clearText();
+	}
+	if (tabActive=="register"){
+		clearTextRegister();
+	}
 	if (op!="about")
 		tabActive=op;
-	if (op==="definition"){
-		ghosts.forEach(t => t.classList.add('imgGhosts'));
-		document.querySelector(`.imgGhosts${numberOfGhosts}`).classList.remove('imgGhosts');
-	}
+
 }
 
 
