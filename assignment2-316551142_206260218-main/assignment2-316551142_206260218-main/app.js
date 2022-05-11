@@ -824,6 +824,7 @@ function clearTextLogin(){
 }
 
 function clearTextRegister(){
+	console.log("yes");
 	$('#username').val('');
 	$('#password').val('');
 	$('#fullname').val('');
@@ -841,7 +842,7 @@ function changeOperator(op){
 		window.clearInterval(intervalGhost);
 	}
 	if (tabActive=="login"){
-		clearText();
+		clearTextLogin();
 	}
 	if (tabActive=="register"){
 		clearTextRegister();

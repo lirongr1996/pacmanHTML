@@ -223,3 +223,27 @@ cursor: pointer;
   /* padding-left: 1000px; */
   text-align: center;
 }
+
+
+#mail{
+  width: 20px;
+  height: 15px;
+}
+
+footer{
+  text-align: center;
+}
+
+#definition{
+  text-align: center;
+}
+
+.space {
+  width: 4px;
+  height: auto;
+  display: inline-block;
+}
+
+.foodNum{
+  display: inline-block;
+}

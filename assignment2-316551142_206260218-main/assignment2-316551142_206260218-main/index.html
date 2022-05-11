@@ -107,18 +107,29 @@
         </div>
       </div>
       <div class="operation tab" id="definition">
+        <div id="changeKey">
+          <div>
+            <button id="up" onclick="setKey('up')">&uarr;</button>
+          </div>
+          <div class="outdiv">
         <button id="left" onclick="setKey('left')">&larr;</button>
+        <div class="space">
+        </div>
         <button id="right" onclick="setKey('right')">&rarr;</button>
-        <button id="up" onclick="setKey('up')">&uarr;</button>
+    </div>
+      <div>
         <button id="down" onclick="setKey('down')">&darr;</button>
-
+      </div>
+      </div>
         <div id="pressKey">
         <div id="myModal" class="modal">
           <span class="close" onclick="closeKey()">&times;</span>
           <p id="textKey">Press new key...</p>
         </div>
       </div>
+      
         <div class="foodNum">
+          <label>Food number: </label>
           <div class="ranges">
             <input
               class="numberBalls"
@@ -130,7 +141,7 @@
               oninput="changeNumber(this.value)"
             />
             <output class="code-container"
-              >Food number: <span class="foodAns">70</span>
+              ><span class="foodAns">70</span>
             </output>
           </div>
         </div>
@@ -218,7 +229,18 @@
       </div>
     </div>
     <footer>
-      
+      <label>Liron Groer</label>
+      <a class="mail" href="mailto:groer@gost.bgu.ac.il" onclick="clickSend">
+        <img id="mail" src="img/mail.jpg">
+      </a>
+      <label>Shir Indaporker</label>
+      <a class="mail" href="mailto:shirinda@gost.bgu.ac.il" onclick="clickSend">
+        <img id="mail" src="img/mail.jpg">
+      </a>
+      <label>Anna Kolkovsky</label>
+      <a class="mail" href="mailto:annakol@post.bgu.ac.il" onclick="clickSend">
+        <img id="mail" src="img/mail.jpg">
+      </a>
     </footer>
   </body>
 </html>
