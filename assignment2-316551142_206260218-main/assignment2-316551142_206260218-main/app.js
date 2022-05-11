@@ -568,12 +568,12 @@ function UpdatePosition() {
 				objCherry.src="audio/death.wav";
 				objCherry.load();
 				objCherry.play();
-				window.alert("Loser!");
+				$('#over').css("display","block");
 				window.clearInterval(interval);
 				window.clearInterval(intervalChrries);
 				window.clearInterval(intervalGhost);
 				objWellcom.pause();
-				changeOperator("welcome");
+				// changeOperator("welcome");
 			}
 			startKey=false;
 			for (let a=0;a<parseInt(numberOfGhosts);a++){
@@ -591,6 +591,7 @@ function UpdatePosition() {
 			shape.i = m;
 			shape.j = n;
 			board[shape.i][shape.j]=2;
+			objCherry.pause();
 			objCherry.src="audio/ghosteat.wav";
 			objCherry.load();
 			objCherry.play();
@@ -670,97 +671,7 @@ function UpdatePosition() {
 	Draw(direct);
 }
 
-var Days = [31,28,31,30,31,30,31,31,30,31,30,31];// index => month [0-11]
-$(document).ready(function(){
-    var option = '<option value="day">day</option>';
-    var selectedDay="day";
-    for (var i=1;i <= Days[0];i++){ //add option days
-        option += '<option value="'+ i + '">' + i + '</option>';
-    }
-    $('#day').append(option);
-    $('#day').val(selectedDay);
 
-    var option = '<option value="month">month</option>';
-    var selectedMon ="month";
-    for (var i=1;i <= 12;i++){
-        option += '<option value="'+ i + '">' + i + '</option>';
-    }
-    $('#month').append(option);
-    $('#month').val(selectedMon);
-
-    var option = '<option value="month">month</option>';
-    var selectedMon ="month";
-    for (var i=1;i <= 12;i++){
-        option += '<option value="'+ i + '">' + i + '</option>';
-    }
-    $('#month2').append(option);
-    $('#month2').val(selectedMon);
-  
-    var d = new Date();
-    var option = '<option value="year">year</option>';
-    selectedYear ="year";
-    for (var i=1930;i <= d.getFullYear();i++){// years start i
-        option += '<option value="'+ i + '">' + i + '</option>';
-    }
-    $('#year').append(option);
-    $('#year').val(selectedYear);
-});
-function isLeapYear(year) {
-    year = parseInt(year);
-    if (year % 4 != 0) {
-	      return false;
-	  } else if (year % 400 == 0) {
-	      return true;
-	  } else if (year % 100 == 0) {
-	      return false;
-	  } else {
-	      return true;
-	  }
-}
-
-function change_year(select)
-{
-    if( isLeapYear( $(select).val() ) )
-	  {
-		    Days[1] = 29;
-    }
-    else {
-        Days[1] = 28;
-    }
-    if( $("#month").val() == 2)
-		    {
-			       var day = $('#day');
-			       var val = $(day).val();
-			       $(day).empty();
-			       var option = '<option value="day">day</option>';
-			       for (var i=1;i <= Days[1];i++){ //add option days
-				         option += '<option value="'+ i + '">' + i + '</option>';
-             }
-			       $(day).append(option);
-			       if( val > Days[ month ] )
-			       {
-				          val = 1;
-			       }
-			       $(day).val(val);
-		     }
-  }
-
-function change_month(select) {
-    var day = $('#day');
-    var val = $(day).val();
-    $(day).empty();
-    var option = '<option value="day">day</option>';
-    var month = parseInt( $(select).val() ) - 1;
-    for (var i=1;i <= Days[ month ];i++){ //add option days
-        option += '<option value="'+ i + '">' + i + '</option>';
-    }
-    $(day).append(option);
-    if( val > Days[ month ] )
-    {
-        val = 1;
-    }
-    $(day).val(val);
-}
 
 
 
@@ -1006,6 +917,9 @@ window.onclick = function(event) {
 	if (event.target == document.getElementById("pressKey")){
 		$('#pressKey').css("display","none");
 	}
+	if (event.target == document.getElementById("over")){
+		$('#over').css("display","none");
+	}
 }
 
 function closeAbout() {
@@ -1014,4 +928,9 @@ function closeAbout() {
 
 function closeKey() {
 	document.querySelector("#pressKey").style.display = "none";
+}
+
+function closeGameOver(){
+	console.log("yes");
+	document.querySelector("#over").style.display="none";
 }

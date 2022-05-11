@@ -220,7 +220,7 @@
 }
 
 
-.close {
+.close ,.closeOver {
   color: #aaaaaa;
   float: right;
   font-size: 28px;
@@ -228,7 +228,7 @@
 }
 
 .close:hover,
-.close:focus {
+.close:focus, .closeOver:hover,.closeOver:focus {
 color: #000;
 text-decoration: none;
 cursor: pointer;
@@ -321,3 +321,29 @@ footer{
   font-weight: bold ;
   font-family: monospace;
 }
+
+#over {background: #b0e0e6d1;
+  display: none;
+  z-index: 1;
+    position: fixed;
+    left: 150px;
+    top: 50px;
+    width: 60%; 
+    height: 80%; 
+}
+
+
+.gameover {width:300px;
+padding:10px;
+			height: 400px;
+			background: none;}
+
+.gameover p {margin-top: 20px;
+			margin-bottom: 20px;
+            margin-left:50px;
+			font-size: 150px;
+			font-family: 'Black Ops One', cursive;
+			line-height: 120px;
+			text-align: center;
+			text-shadow: 5px 5px #000000;
+			color: #ffffff;}
