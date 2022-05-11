@@ -30,7 +30,7 @@ var lives=5;
 var cherries =new Object();
 var medicineLives=new Object();
 var medicineGhost=new Object();
-var countfreeGhost=20;
+var countfreeGhost=26;
 var hiddenGhost=false;
 var eye=false;
 var intervalGhost;
@@ -48,11 +48,14 @@ $(document).ready(function() {
 	$('#welcome').removeClass('operation');
 	tabs= document.querySelectorAll('.tab');
 	ghosts=document.querySelectorAll('.imgGhost');
-	objWellcom=document.getElementById("start").loop;
+	objWellcom=document.getElementById("start");
+	objWellcom.loop="loop";
+	objWellcom.volume=0.2;
 	objCherry=document.getElementById("cherry");
 	objDeath=document.getElementById("death");
 	objEatfood=document.getElementById("eatfood");
 	objFreeghost=document.getElementById("freeghost");
+	objFreeghost.volume=0.5;
 	objGhosteat=document.getElementById("ghosteat");
 	// Start();
 });
@@ -68,11 +71,11 @@ function randomPosition(){
 }
 
 function Start() {
-	// objWellcom.play();
+	objWellcom.play();
 	board = new Array();
 	score = 0;
 	ghostArray=[];
-	countfreeGhost=10;
+	countfreeGhost=26;
 	startKey=false;
 	pac_color = "yellow";
 	lives=5;
@@ -562,10 +565,14 @@ function UpdatePosition() {
 			score-=10;
 			lives--;
 			if (lives<=0){
+				objCherry.src="audio/death.wav";
+				objCherry.load();
+				objCherry.play();
 				window.alert("Loser!");
 				window.clearInterval(interval);
 				window.clearInterval(intervalChrries);
 				window.clearInterval(intervalGhost);
+				objWellcom.pause();
 				changeOperator("welcome");
 			}
 			startKey=false;
@@ -584,6 +591,9 @@ function UpdatePosition() {
 			shape.i = m;
 			shape.j = n;
 			board[shape.i][shape.j]=2;
+			objCherry.src="audio/ghosteat.wav";
+			objCherry.load();
+			objCherry.play();
 		}
 	}
 	if(cherries.eaten==false && ((cherries.i==shape.i &&cherries.j==shape.j)||
@@ -593,29 +603,54 @@ function UpdatePosition() {
 	(cherries.j==shape.j && cherries.i==shape.i-1 && direct==4))){
 		score+=50;
 		cherries.eaten=true;
+		objCherry.src="audio/cherry.wav";
+		objCherry.load();
+		objCherry.play();
 	}
 
 	if (hiddenGhost){
 		countfreeGhost--;
 	}
-	if (countfreeGhost==0)
+	if (countfreeGhost==0){
 		hiddenGhost=false;
+		
+	}
+
 
 	if (medicineLives.i==shape.i && medicineLives.j==shape.j && medicineLives.eaten==false){
 		lives++;
 		medicineLives.eaten=true;
 	}
-	if (countfreeGhost==10 && medicineGhost.i==shape.i && medicineGhost.j==shape.j && medicineGhost.eaten==false){
+	if (countfreeGhost==26 && medicineGhost.i==shape.i && medicineGhost.j==shape.j && medicineGhost.eaten==false){
 		hiddenGhost=true;
 		medicineGhost.eaten=true;
+		// objCherry.src="audio/freeghost.wav";
+		// objCherry.load();
+		objFreeghost.play();
+		objCherry.pause();
 	}
 	if (board[shape.i][shape.j] == 1) {
 		score+=25;
+		if (!hiddenGhost){
+		objCherry.src="audio/eatfood.wav";
+		objCherry.load();
+		objCherry.play();
+		}
 	}
 	if (board[shape.i][shape.j] == 3) {
+		if (!hiddenGhost){
+			objCherry.src="audio/eatfood.wav";
+			objCherry.load();
+			objCherry.play();
+			}
 		score+=5;
 	}
 	if (board[shape.i][shape.j] == 5) {
+		if (!hiddenGhost){
+			objCherry.src="audio/eatfood.wav";
+			objCherry.load();
+			objCherry.play();
+			}
 		score+=15;
 	}
 	board[shape.i][shape.j] = 2;
@@ -629,6 +664,7 @@ function UpdatePosition() {
 		window.clearInterval(interval);
 		window.clearInterval(intervalChrries);
 		window.clearInterval(intervalGhost);
+		objWellcom.pause();
 		changeOperator("welcome");
 	}
 	Draw(direct);
@@ -858,6 +894,7 @@ function changeOperator(op){
 		window.clearInterval(interval);
 		window.clearInterval(intervalChrries);
 		window.clearInterval(intervalGhost);
+		objWellcom.pause();
 	}
 	if (tabActive=="login"){
 		clearTextLogin();
