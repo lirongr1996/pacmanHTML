@@ -402,3 +402,9 @@ cursor: pointer;
   background-color: rgba(253, 254, 204, 0.833);
   color: #000;
 }
+
+
+.gameT{
+  display: flex;
+  flex-direction: row;
+}

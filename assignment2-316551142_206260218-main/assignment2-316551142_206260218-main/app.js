@@ -46,6 +46,7 @@ var objGhosteat;
 $(document).ready(function() {
 	context = canvas.getContext("2d");
 	$('#welcome').removeClass('operation');
+	$('#game').removeClass('gameT');
 	tabs= document.querySelectorAll('.tab');
 	ghosts=document.querySelectorAll('.imgGhost');
 	objWellcom=document.getElementById("start");
@@ -169,7 +170,7 @@ function Start() {
 		"keydown",
 		function(e) {
 			keysDown[e.keyCode] = true;
-			if([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+			if([32, 37, 38, 39, 40].some(c => c === e.keyCode)) {
 				e.preventDefault();
 			}
 		},
@@ -504,6 +505,8 @@ function UpdatePositionGhost(){
 			}
 			delete locations[key];
 		}
+		if (pos==undefined)
+			continue;
 		ghostArray[k].i+=pos[0];
 		ghostArray[k].j+=pos[1];
 		ghostArray[k].last=key;		
@@ -799,6 +802,7 @@ function changeOperator(op){
 	$('#over').css("display","none");
 	$('#winner').css("display","none");
 	$('#better').css("display","none");
+	$('#game').removeClass('gameT');
 	if (op!="about")
 		tabs.forEach(t => t.classList.add('operation'));
 	document.querySelector(`#${op}`).classList.remove('operation');
@@ -816,7 +820,6 @@ function changeOperator(op){
 	}
 	if (op!="about")
 		tabActive=op;
-
 }
 
 
@@ -897,7 +900,7 @@ function startGame(){
 	$('#myTime').text(`Game's duration: ${timeforfinish}`);
 	$('#myGhost').text(`Ghosts: ${ghosts_remain}`);
 	tabs.forEach(t => t.classList.add('operation'));
-	document.querySelector(`#game`).classList.remove('operation');
+	document.querySelector(`#game`).classList.add('gameT');
 	tabActive="game";
 	Start();
 };
