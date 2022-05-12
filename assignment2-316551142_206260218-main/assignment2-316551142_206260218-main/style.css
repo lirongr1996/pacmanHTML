@@ -322,7 +322,16 @@ footer{
   font-family: monospace;
 }
 
-#over {background: #b0e0e6d1;
+#over,#winner {background: #b0e0e6d1;
+  display: none;
+  z-index: 1;
+    position: fixed;
+    left: 15%;
+    top: 20%;
+    width: 60%; 
+    height: 80%; 
+}
+#better {background: #b0e0e6d1;
   display: none;
   z-index: 1;
     position: fixed;
@@ -347,6 +356,17 @@ padding:10px;
 			text-align: center;
 			text-shadow: 5px 5px #000000;
 			color: #ffffff;
+}
+
+.pbetter{margin-top: 10px;
+  margin-bottom: 20px;
+        margin-left:50px;
+  font-size: 90px;
+  font-family: 'Black Ops One', cursive;
+  line-height: 120px;
+  text-align: center;
+  text-shadow: 5px 5px #000000;
+  color: #ffffff;
 }
 
 .closeOver {

@@ -169,6 +169,9 @@ function Start() {
 		"keydown",
 		function(e) {
 			keysDown[e.keyCode] = true;
+			if([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+				e.preventDefault();
+			}
 		},
 		false
 	);
@@ -642,15 +645,19 @@ function UpdatePosition() {
 	var currentTime = new Date();
 	time_elapsed = (currentTime - start_time) / 1000;
 	if (time_elapsed >=timeforfinish && tabActive==="game"){
-		if (score<100)
-			window.alert(`You are better than ${score} points!`);
-		else
-			window.alert("Winner!!!");
+		if (score<100){
+			// window.alert(`You are better than ${score} points!`);
+			$('#betterP').text(`${score} points!`);
+			$('#better').css("display","block");
+		}
+		else{
+			$('#winner').css("display","block");
+		}
 		window.clearInterval(interval);
 		window.clearInterval(intervalChrries);
 		window.clearInterval(intervalGhost);
 		objWellcom.pause();
-		changeOperator("welcome");
+		// changeOperator("welcome");
 	}
 	Draw(direct);
 }
@@ -790,6 +797,8 @@ function clearTextRegister(){
 
 function changeOperator(op){
 	$('#over').css("display","none");
+	$('#winner').css("display","none");
+	$('#better').css("display","none");
 	if (op!="about")
 		tabs.forEach(t => t.classList.add('operation'));
 	document.querySelector(`#${op}`).classList.remove('operation');
@@ -913,7 +922,9 @@ function closeKey() {
 	
 }
 
-function closeGameOver(){
+function closeGame(){
 	document.querySelector("#over").style.display="none";
+	document.querySelector("#winner").style.display="none";
+	document.querySelector("#better").style.display="none";
 	changeOperator("welcome");
 }

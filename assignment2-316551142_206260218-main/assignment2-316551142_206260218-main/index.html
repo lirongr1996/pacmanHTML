@@ -282,24 +282,46 @@
           <button id="new" onclick="changeOperator('definition')">New game</button>
          </div>
         <div class="gameover">
-        <span class="closeOver" onclick="closeGameOver()">&times;</span>
+        <span class="closeOver" onclick="closeGame()">&times;</span>
         <p> GAME </p>
          <p> OVER </p>
          <p> LOSER! </p>
        </div>
        </div>
+       <div id="winner">
+        <div>
+          <button id="new" onclick="changeOperator('definition')">New game</button>
+         </div>
+        <div class="gameover">
+        <span class="closeOver" onclick="closeGame()">&times;</span>
+        <p>WINNER!!!</p>
+         <!-- <p> OVER </p>
+         <p> LOSER! </p> -->
+       </div>
+       </div>
+       <div id="better">
+        <div>
+          <button id="new" onclick="changeOperator('definition')">New game</button>
+         </div>
+        <div class="gameover">
+        <span class="closeOver" onclick="closeGame()">&times;</span>
+        <p class="pbetter">You are</p>
+         <p class="pbetter"> better than</p>
+         <p class="pbetter" id="betterP"> LOSER! </p>
+       </div>
+       </div>
     </div>
     <footer>
       <label>Liron Groer</label>
-      <a class="mail" style="text-decoration: none;" href="mailto:groer@gost.bgu.ac.il" onclick="clickSend">
+      <a class="mail" style="text-decoration: none;" href="mailto:groer@gost.bgu.ac.il">
         <img id="mail" src="img/mail.jpg">
       </a>
       <label>Shir Indaporker</label>
-      <a class="mail" style="text-decoration: none;" href="mailto:shirinda@gost.bgu.ac.il" onclick="clickSend">
+      <a class="mail" style="text-decoration: none;" href="mailto:shirinda@gost.bgu.ac.il">
         <img id="mail" src="img/mail.jpg">
       </a>
       <label>Anna Kolkovsky</label>
-      <a class="mail" style="text-decoration: none;" href="mailto:annakol@post.bgu.ac.il" onclick="clickSend">
+      <a class="mail" style="text-decoration: none;" href="mailto:annakol@post.bgu.ac.il">
         <img id="mail" src="img/mail.jpg">
       </a>
     </footer>
