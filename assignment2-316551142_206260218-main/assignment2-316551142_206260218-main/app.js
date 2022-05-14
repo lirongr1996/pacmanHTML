@@ -534,35 +534,76 @@ function UpdatePosition() {
 	let x = GetKeyPressed();
 	if (x==undefined &&startKey)
 		x=direct;
-	if (x == 1) {
+	let flag=false;
+	for (let k=0;k<numberOfGhosts;k++){
+		if(hiddenGhost==false &&( ghostArray[k].i==shape.i &&ghostArray[k].j+1==shape.j && x==2) ||
+		(ghostArray[k].i==shape.i &&ghostArray[k].j-1==shape.j && x==1)||
+		(ghostArray[k].i+1==shape.i &&ghostArray[k].j==shape.j && x==4)||
+		(ghostArray[k].i-1==shape.i &&ghostArray[k].j==shape.j && x==3)||
+		(ghostArray[k].i==shape.i &&ghostArray[k].j==shape.j)){
+			if(ghostArray[k].num==6){ //ghost's special
+				score-=10;
+				lives--;
+			}
+			score-=10;
+			lives--;
+			if (lives<=0){
+				objDeath.play();
+				$('#over').css("display","block");
+				window.clearInterval(interval);
+				window.clearInterval(intervalChrries);
+				window.clearInterval(intervalGhost);
+				objWellcom.pause();
+			}
+			startKey=false;
+			for (let a=0;a<parseInt(numberOfGhosts);a++){
+				ghostArray[a].i=places[a][0];
+				ghostArray[a].j=places[a][1];
+				ghostArray[a].last=null;
+			}
+			board[shape.i][shape.j]=0;
+			let m=Math.floor(Math.random()*14)+1;
+			let n=Math.floor(Math.random()*6)+1;
+			while(board[m][n]!=0){
+				m=Math.floor(Math.random()*14)+1;
+				n=Math.floor(Math.random()*6)+1;
+			}
+			shape.i = m;
+			shape.j = n;
+			board[shape.i][shape.j]=2;
+			objGhosteat.play();
+			flag=true;
+		}
+	}
+	if (flag==false && x == 1) {
 		if (shape.j > 0 && board[shape.i][shape.j - 1] != 4) {
 			shape.j--;
 			direct=x;
 			startKey=true;
 		}
 	}
-	if (x == 2) {
+	if (flag==false && x == 2) {
 		if (shape.j < 7 && board[shape.i][shape.j + 1] != 4) {
 			shape.j++;
 			direct=x;
 			startKey=true;
 		}
 	}
-	if (x == 3) {
+	if (flag==false && x == 3) {
 		if (shape.i > 0 && board[shape.i - 1][shape.j] != 4) {
 			shape.i--;
 			direct=x;
 			startKey=true;
 		}
 	}
-	if (x == 4) {
+	if (flag==false && x == 4) {
 		if (shape.i < 15 && board[shape.i + 1][shape.j] != 4) {
 			shape.i++;
 			direct=x;
 			startKey=true;
 		}
 	}	
-	for (let k=0;k<numberOfGhosts;k++){
+	/*for (let k=0;k<numberOfGhosts;k++){
 		if(ghostArray[k].i==shape.i &&ghostArray[k].j==shape.j && hiddenGhost==false){
 			if(ghostArray[k].num==6){ //ghost's special
 				score-=10;
@@ -597,7 +638,7 @@ function UpdatePosition() {
 			board[shape.i][shape.j]=2;
 			objGhosteat.play();
 		}
-	}
+	}*/
 	if(cherries.eaten==false && ((cherries.i==shape.i &&cherries.j==shape.j)||
 	(cherries.i==shape.i && cherries.j==shape.j+1 && direct==1)||
 	(cherries.i==shape.i && cherries.j==shape.j-1 && direct==2)||
