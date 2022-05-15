@@ -11,7 +11,8 @@ var ghosts_remain;
 
 const users={};
 users["k"]="k";
-const keys={"left":37, "right":39, "up":38,"down":40}
+const keys={"left":37, "right":39, "up":38,"down":40};
+var username;
 var large="blue";
 var small="green";
 var medium="red";
@@ -41,6 +42,8 @@ var objDeath;
 var objEatfood;
 var objFreeghost;
 var objGhosteat;
+var slowMotion=new Object();
+var countInterval=10;
 
 
 $(document).ready(function() {
@@ -77,6 +80,7 @@ function Start() {
 	score = 0;
 	ghostArray=[];
 	countfreeGhost=26;
+	countInterval=10;
 	startKey=false;
 	pac_color = "yellow";
 	lives=5;
@@ -90,7 +94,7 @@ function Start() {
 		for (let j=0;j<8;j++)
 			board[i][j]=0;
 	}
-	
+
 	let pos=randomPosition();
 	shape.i = pos[0];
 	shape.j = pos[1];
@@ -111,6 +115,14 @@ function Start() {
 	medicineGhost.i=pos[0];
 	medicineGhost.j=pos[1];
 	medicineGhost.eaten=false;
+
+
+	// pos=randomPosition();
+	// slowMotion.i=pos[0];
+	// slowMotion.j=pos[1];
+	// slowMotion.eaten=false;
+	// board[slowMotion.i][slowMotion.j] = 10;
+
 	for (var i = 0; i < 16; i++) {
 		for (var j = 0; j < 8; j++) {
 			if (borders.some(r=> r.every((value, index) => [i,j][index] == value))) {
@@ -156,6 +168,12 @@ function Start() {
 		foodM--;
 		food_remain--;
 	}
+	pos=findRandomEmptyCell(board);
+	slowMotion.i=pos[0];
+	slowMotion.j=pos[1];
+	slowMotion.eaten=false;
+	board[slowMotion.i][slowMotion.j] = 10;
+
 	for (let q=0;q<ghosts_remain;q++){
 		let g=new Object();
 		g.i=places[q][0];
@@ -338,6 +356,20 @@ function Draw(x) {
 		context.fillStyle='white';
 		context.fill();
 		context.closePath();
+	}
+
+	if (slowMotion.eaten==false){
+		center.x = slowMotion.i * 60 + 30;
+		center.y = slowMotion.j * 60 + 30;
+		context.beginPath();
+		context.fillStyle="white";
+		context.arc(center.x,center.y, 25, 0, 2 * Math.PI);//100, 75
+		context.font = "14px Arial";
+		context.fillText("slow", center.x-16,center.y-8);//83, 65
+		context.fillText("motion", center.x-21,center.y+9);//80, 85
+		context.lineWidth = 5;
+		context.strokeStyle="white";
+		context.stroke();
 	}
 
 
@@ -654,13 +686,24 @@ function UpdatePosition() {
 	}
 	if (countfreeGhost==0){
 		hiddenGhost=false;
-		
+	}
+	if (slowMotion.eaten){
+		countInterval--;
+	}
+	if (countInterval==0){
+		window.clearInterval(intervalGhost);
+		intervalGhost = setInterval(UpdatePositionGhost, 400);
 	}
 
 
 	if (medicineLives.i==shape.i && medicineLives.j==shape.j && medicineLives.eaten==false){
 		lives++;
 		medicineLives.eaten=true;
+	}
+	if (slowMotion.i==shape.i && slowMotion.j==shape.j && slowMotion.eaten==false){
+		slowMotion.eaten=true;
+		window.clearInterval(intervalGhost);
+		intervalGhost = setInterval(UpdatePositionGhost, 800);
 	}
 	if (countfreeGhost==26 && medicineGhost.i==shape.i && medicineGhost.j==shape.j && medicineGhost.eaten==false){
 		hiddenGhost=true;
@@ -691,7 +734,7 @@ function UpdatePosition() {
 	if (time_elapsed >=timeforfinish && tabActive==="game"){
 		if (score<100){
 			// window.alert(`You are better than ${score} points!`);
-			$('#betterP').text(`${score} points!`);
+			$('#betterP').text(`than ${score} points!`);
 			$('#better').css("display","block");
 		}
 		else{
@@ -777,6 +820,7 @@ function login(){
 
 	if (confirm && users[$('#usernamelogin').val()]===$('#passwordlogin').val()){
 		tabs.forEach(t => t.classList.add('operation'));
+		username=$('#usernamelogin').val();
 		clearTextLogin();
 		document.querySelector(`#definition`).classList.remove('operation');
 		ghosts.forEach(t => t.classList.add('imgGhosts'));
@@ -940,6 +984,7 @@ function startGame(){
 	$('#myLarge').css("color",large);
 	$('#myTime').text(`Game's duration: ${timeforfinish}`);
 	$('#myGhost').text(`Ghosts: ${ghosts_remain}`);
+	$('#myName').text(`User: ${username}`);
 	tabs.forEach(t => t.classList.add('operation'));
 	document.querySelector(`#game`).classList.add('gameT');
 	tabActive="game";
