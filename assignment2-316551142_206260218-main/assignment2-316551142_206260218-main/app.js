@@ -44,6 +44,7 @@ var objFreeghost;
 var objGhosteat;
 var slowMotion=new Object();
 var countInterval=10;
+var food;
 
 
 $(document).ready(function() {
@@ -82,6 +83,8 @@ function Start() {
 	countfreeGhost=26;
 	countInterval=10;
 	startKey=false;
+	hiddenGhost=false;
+	food=food_remain;
 	pac_color = "yellow";
 	lives=5;
 	var cnt = 128;
@@ -568,11 +571,11 @@ function UpdatePosition() {
 		x=direct;
 	let flag=false;
 	for (let k=0;k<numberOfGhosts;k++){
-		if(hiddenGhost==false &&( ghostArray[k].i==shape.i &&ghostArray[k].j+1==shape.j && x==2) ||
+		if(hiddenGhost==false &&(( ghostArray[k].i==shape.i &&ghostArray[k].j+1==shape.j && x==2) ||
 		(ghostArray[k].i==shape.i &&ghostArray[k].j-1==shape.j && x==1)||
 		(ghostArray[k].i+1==shape.i &&ghostArray[k].j==shape.j && x==4)||
 		(ghostArray[k].i-1==shape.i &&ghostArray[k].j==shape.j && x==3)||
-		(ghostArray[k].i==shape.i &&ghostArray[k].j==shape.j)){
+		(ghostArray[k].i==shape.i &&ghostArray[k].j==shape.j))){
 			if(ghostArray[k].num==6){ //ghost's special
 				score-=10;
 				lives--;
@@ -712,21 +715,31 @@ function UpdatePosition() {
 	}
 	if (board[shape.i][shape.j] == 1) {
 		score+=25;
+		food--;
 		if (!hiddenGhost){
 		objEatfood.play();
 		}
 	}
 	if (board[shape.i][shape.j] == 3) {
+		food--;
 		if (!hiddenGhost){
 			objEatfood.play();
 			}
 		score+=5;
 	}
 	if (board[shape.i][shape.j] == 5) {
+		food--;
 		if (!hiddenGhost){
 			objEatfood.play();
 			}
 		score+=15;
+	}
+	if (food==0){
+		window.clearInterval(interval);
+		window.clearInterval(intervalChrries);
+		window.clearInterval(intervalGhost);
+		objWellcom.pause();
+		$('#winner').css("display","block");
 	}
 	board[shape.i][shape.j] = 2;
 	var currentTime = new Date();
@@ -896,6 +909,11 @@ function changeOperator(op){
 		window.clearInterval(intervalChrries);
 		window.clearInterval(intervalGhost);
 		objWellcom.pause();
+		objCherry.pause();
+		objFreeghost.pause();
+		objDeath.pause();
+		objEatfood.pause();
+		objGhosteat.pause();
 	}
 	if (tabActive=="login"){
 		clearTextLogin();
