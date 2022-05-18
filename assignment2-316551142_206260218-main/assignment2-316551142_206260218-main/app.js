@@ -84,13 +84,13 @@ function Start() {
 	countInterval=10;
 	startKey=false;
 	hiddenGhost=false;
-	food=food_remain;
 	pac_color = "yellow";
 	lives=5;
 	var cnt = 128;
 	var foodS=parseInt(food_remain*0.6);
 	var foodM=parseInt(food_remain*0.3);
 	var foodL=parseInt(food_remain*0.1);
+	food=foodS+foodM+foodL;
 	start_time = new Date();
 	for (let i=0;i<16;i++){
 		board[i] = new Array();
@@ -101,6 +101,7 @@ function Start() {
 	let pos=randomPosition();
 	shape.i = pos[0];
 	shape.j = pos[1];
+	shape.dead=0;
 	board[pos[0]][pos[1]] = 2;
 
 	pos=randomPosition();
@@ -516,6 +517,7 @@ function UpdatePositionGhost(){
 			locations["up"]=[0,-1];
 		if (ghostArray[k].j<7 &&  board[ghostArray[k].i][ghostArray[k].j+1]!=4 && (ghostArray[k].last!="up") && checkGhost(ghostArray[k].i,ghostArray[k].j+1))
 			locations["down"]=[0,1];
+		console.log("locB",locations);
 		if (Object.keys(locations).length==0)
 		{
 			if (ghostArray[k].i>0 &&  board[ghostArray[k].i-1][ghostArray[k].j]!=4 && checkGhost(ghostArray[k].i-1,ghostArray[k].j))
@@ -530,21 +532,26 @@ function UpdatePositionGhost(){
 		let index;
 		let key;
 		let pos;
+		
 		while (Object.keys(locations).length>0){
 			index=Math.floor(Math.random()*Object.keys(locations).length);
 			key=Object.keys(locations)[index];
 			pos=locations[key];
-			if (Math.abs(pos[0] - shape.i) > Math.abs(ghostArray[k].i - shape.i) ||
-			Math.abs(pos[1] - shape.j) > Math.abs(ghostArray[k].j - shape.j)){
+			if (Math.abs(ghostArray[k].i+pos[0] - shape.i) < Math.abs(ghostArray[k].i - shape.i) ||
+			Math.abs(ghostArray[k].j+pos[1] - shape.j) < Math.abs(ghostArray[k].j - shape.j)){
 				break;
 			}
-			delete locations[key];
+			if (Object.keys(locations).length>1)
+				delete locations[key];
+			else break;
 		}
-		if (pos==undefined)
+		console.log("locA",locations);
+		if (pos==undefined || Object.keys(locations).length===0)
 			continue;
 		ghostArray[k].i+=pos[0];
 		ghostArray[k].j+=pos[1];
-		ghostArray[k].last=key;		
+		ghostArray[k].last=key;	
+		console.log("ghost",ghostArray[k]);
 	}
 }
 
@@ -571,17 +578,45 @@ function UpdatePosition() {
 		x=direct;
 	let flag=false;
 	for (let k=0;k<numberOfGhosts;k++){
-		if(hiddenGhost==false &&(( ghostArray[k].i==shape.i &&ghostArray[k].j+1==shape.j && x==2) ||
-		(ghostArray[k].i==shape.i &&ghostArray[k].j-1==shape.j && x==1)||
-		(ghostArray[k].i+1==shape.i &&ghostArray[k].j==shape.j && x==4)||
-		(ghostArray[k].i-1==shape.i &&ghostArray[k].j==shape.j && x==3)||
-		(ghostArray[k].i==shape.i &&ghostArray[k].j==shape.j))){
+		if(hiddenGhost==false){
+
+			/*&&(( ghostArray[k].i==shape.i &&ghostArray[k].j+1==shape.j && x==1) ||
+			(ghostArray[k].i==shape.i &&ghostArray[k].j-1==shape.j && x==2)||
+			(ghostArray[k].i+1==shape.i &&ghostArray[k].j==shape.j && x==3)||
+			(ghostArray[k].i-1==shape.i &&ghostArray[k].j==shape.j && x==4)||
+			(ghostArray[k].i==shape.i &&ghostArray[k].j==shape.j))*/
+			let bingo=false;
+			if (ghostArray[k].i==shape.i &&ghostArray[k].j+1==shape.j && x==1){
+				bingo=true;
+				if (board[ghostArray[k].i][ghostArray[k].j]==1 || board[ghostArray[k].i][ghostArray[k].j]==3 || board[ghostArray[k].i][ghostArray[k].j]==5)
+					food--;
+			}
+			else if(ghostArray[k].i==shape.i &&ghostArray[k].j-1==shape.j && x==2){
+				bingo=true;
+				if (board[ghostArray[k].i][ghostArray[k].j]==1 || board[ghostArray[k].i][ghostArray[k].j]==3 || board[ghostArray[k].i][ghostArray[k].j]==5)
+					food--;
+			}
+			else if(ghostArray[k].i+1==shape.i &&ghostArray[k].j==shape.j && x==3){
+				bingo=true;
+				if (board[ghostArray[k].i][ghostArray[k].j]==1 || board[ghostArray[k].i][ghostArray[k].j]==3 || board[ghostArray[k].i][ghostArray[k].j]==5)
+					food--;
+			}
+			else if(ghostArray[k].i-1==shape.i &&ghostArray[k].j==shape.j && x==4){
+				bingo=true;
+				if (board[ghostArray[k].i][ghostArray[k].j]==1 || board[ghostArray[k].i][ghostArray[k].j]==3 || board[ghostArray[k].i][ghostArray[k].j]==5)
+					food--;
+			}
+			else if(ghostArray[k].i==shape.i &&ghostArray[k].j==shape.j)
+				bingo=true;
+			if (bingo){
+
 			if(ghostArray[k].num==6){ //ghost's special
 				score-=10;
 				lives--;
 			}
 			score-=10;
 			lives--;
+			shape.dead++;
 			if (lives<=0){
 				objDeath.play();
 				$('#over').css("display","block");
@@ -596,7 +631,7 @@ function UpdatePosition() {
 				ghostArray[a].j=places[a][1];
 				ghostArray[a].last=null;
 			}
-			board[shape.i][shape.j]=0;
+			
 			let m=Math.floor(Math.random()*14)+1;
 			let n=Math.floor(Math.random()*6)+1;
 			while(board[m][n]!=0){
@@ -608,6 +643,7 @@ function UpdatePosition() {
 			board[shape.i][shape.j]=2;
 			objGhosteat.play();
 			flag=true;
+		}
 		}
 	}
 	if (flag==false && x == 1) {
@@ -638,42 +674,7 @@ function UpdatePosition() {
 			startKey=true;
 		}
 	}	
-	/*for (let k=0;k<numberOfGhosts;k++){
-		if(ghostArray[k].i==shape.i &&ghostArray[k].j==shape.j && hiddenGhost==false){
-			if(ghostArray[k].num==6){ //ghost's special
-				score-=10;
-				lives--;
-			}
-			score-=10;
-			lives--;
-			if (lives<=0){
-				objDeath.play();
-				$('#over').css("display","block");
-				window.clearInterval(interval);
-				window.clearInterval(intervalChrries);
-				window.clearInterval(intervalGhost);
-				objWellcom.pause();
-				// changeOperator("welcome");
-			}
-			startKey=false;
-			for (let a=0;a<parseInt(numberOfGhosts);a++){
-				ghostArray[a].i=places[a][0];
-				ghostArray[a].j=places[a][1];
-				ghostArray[a].last=null;
-			}
-			board[shape.i][shape.j]=0;
-			let m=Math.floor(Math.random()*14)+1;
-			let n=Math.floor(Math.random()*6)+1;
-			while(board[m][n]!=0){
-				m=Math.floor(Math.random()*14)+1;
-				n=Math.floor(Math.random()*6)+1;
-			}
-			shape.i = m;
-			shape.j = n;
-			board[shape.i][shape.j]=2;
-			objGhosteat.play();
-		}
-	}*/
+	
 	if(cherries.eaten==false && ((cherries.i==shape.i &&cherries.j==shape.j)||
 	(cherries.i==shape.i && cherries.j==shape.j+1 && direct==1)||
 	(cherries.i==shape.i && cherries.j==shape.j-1 && direct==2)||
