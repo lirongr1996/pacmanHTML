@@ -305,10 +305,11 @@ function Draw(x) {
 				
 			} else if (board[i][j] == 1) {//אוכל
 				context.beginPath();
-				context.arc(center.x, center.y, 15, 0, 2 * Math.PI); // circle
+				context.arc(center.x+3, center.y-2, 15, 0, 2 * Math.PI); // circle
 				context.fillStyle = large; //color
 				context.fill();
-				context.fillStyle = "white";
+				context.fillStyle = "black";
+				context.font = "16px Arial";
 				context.fillText('25', center.x-5, center.y+5);
 			} else if (board[i][j] == 4) { //גבולות
 				context.beginPath();
@@ -321,17 +322,20 @@ function Draw(x) {
 				context.stroke();
 			}else if (board[i][j] == 3) {//אוכל
 				context.beginPath();
-				context.arc(center.x, center.y, 8, 0, 2 * Math.PI); // circle
+				context.arc(center.x+2, center.y-2, 8, 0, 2 * Math.PI); // circle
 				context.fillStyle = small; //color
 				context.fill();
-				context.fillStyle = "white";
+				context.fillStyle = "black";
+				context.font = "12px Arial";
 				context.fillText('5', center.x-2, center.y+3);
 			} else if (board[i][j] == 5) {//אוכל
 				context.beginPath();
-				context.arc(center.x, center.y, 12, 0, 2 * Math.PI); // circle
+				context.arc(center.x+3, center.y-3, 12, 0, 2 * Math.PI); // circle
 				context.fillStyle = medium; //color
 				context.fill();
-				context.fillStyle = "white";
+				context.fillStyle = "black";
+				context.font = "14px Arial";
+
 				context.fillText('15', center.x-5, center.y+3);
 			} 
 		}
