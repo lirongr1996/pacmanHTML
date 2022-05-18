@@ -245,8 +245,9 @@ function Draw(x) {
 
 	}
 	document.getElementById('lblLives').innerHTML="Lives:"+l ;
-	context.strokeStyle="white";
-	context.strokeRect(0,0,960,480);
+	context.lineWidth = 5;
+	context.strokeStyle="rgb(0, 126, 151)";
+	context.strokeRect(0,0,965,485);
 	var center = new Object();
 	for (var i = 0; i < 16; i++) {
 		for (var j = 0; j < 8; j++) {
@@ -311,9 +312,13 @@ function Draw(x) {
 				context.fillText('25', center.x-5, center.y+5);
 			} else if (board[i][j] == 4) { //גבולות
 				context.beginPath();
-				context.rect(center.x - 30, center.y - 30, 60, 60);
-				context.fillStyle = "grey"; //color
+				context.rect(center.x - 26, center.y - 26, 46, 46);
+				context.stroke()
+				context.fillStyle = "#b0e0e6d1";; //color
 				context.fill();
+				context.lineWidth = 4;
+				context.strokeStyle="rgba(0, 126, 151, 0.68)";
+				context.stroke();
 			}else if (board[i][j] == 3) {//אוכל
 				context.beginPath();
 				context.arc(center.x, center.y, 8, 0, 2 * Math.PI); // circle
