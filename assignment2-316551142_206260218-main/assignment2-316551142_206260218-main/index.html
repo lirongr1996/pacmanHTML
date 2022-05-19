@@ -182,17 +182,35 @@
         </div>
 
       </div>
-
         <div id="pressKey">
         <div id="myModal" class="modal">
           <span class="close" onclick="closeKey()" >&times;</span>
           <p id="textKey">Press new key...</p>
         </div>
       </div>
-
-
-      <div style="margin-top: 60px;">
-        <div class="foodNum">
+      <div>
+        <div class="GhostNum" style="margin-right: 60px; margin-top: 50px;">
+          <label>Ghost number:</label> 
+            <input
+              class="numberGhosts"
+              type="range"
+              min="1"
+              max="4"
+              step="1"
+              value=""
+              oninput="changeGhosts(this.value)"
+            />
+            <div class="ranges">
+            <output class="code-container">
+              <img class="imgGhosts imgGhost imgGhosts1" src="img/1ghosts.jpg"  />
+              <img class="imgGhosts imgGhost imgGhosts2" src="img/2ghosts.jpg"/>
+              <img class="imgGhosts imgGhost imgGhosts3" src="img/3ghosts.jpg" />
+              <img class="imgGhosts imgGhost imgGhosts4" src="img/4ghosts.jpg"  />
+            </output>
+          </div>
+        </div>
+        <div style="margin-top:-90px;margin-left: 350px;">
+        <div class="foodNum" >
           <div class="ranges">
             <output class="code-container"
             >Food number: <span class="foodAns">70</span>
@@ -225,32 +243,11 @@
             />
    
         </div>
-
-      
-        <div class="GhostNum" style="margin-left: 350px; margin-top: -75px;">
-          <label>Ghost number:</label>
-          
-            <input
-              class="numberGhosts"
-              type="range"
-              min="1"
-              max="4"
-              step="1"
-              value="1"
-              oninput="changeGhosts(this.value)"
-            />
-            <div class="ranges">
-            <output class="code-container">
-              <img class="imgGhosts imgGhost imgGhosts1" src="img/1ghosts.jpg"  />
-              <img class="imgGhosts imgGhost imgGhosts2" src="img/2ghosts.jpg"/>
-              <img class="imgGhosts imgGhost imgGhosts3" src="img/3ghosts.jpg" />
-              <img class="imgGhosts imgGhost imgGhosts4" src="img/4ghosts.jpg"  />
-            </output>
-          </div>
-        </div>
       </div>
 
-        <div class="buttons" style="margin-left: 40px; margin-top: 50px;" >
+     
+      </div>
+        <div class="buttons" style="margin-left: 40px; margin-top: 70px;" >
           <button id="randomDef" style="top:75%;" onclick="randomChange()"> choose ranomaly</button>
           <button id="btnDefinition"  style="top:75%; margin-left:30px;" onclick="startGame()">Start the game</button>
         </div>
@@ -344,7 +341,7 @@
        </div>
     </div>
     <footer>
-      <div style="margin-right: 300px; margin-left: 20px;">
+      <div style="margin-right: 420px; margin-left: 20px;">
         <label>Thank you for playing with us &#128526;
         </label>
       </div>
