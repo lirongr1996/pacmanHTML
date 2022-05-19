@@ -66,7 +66,7 @@
 }
 #welcome {
   position: relative;
-  padding:2px;
+  padding:1px;
 
 }
 #welcome img {
@@ -162,16 +162,23 @@
   }
 
 #definition{
-    text-align: left;
+    text-align: left ;
     font-size: 16px;
+    
     font-family: monospace;
     background-color: #f2f2f2;
-    padding: 10px;
+    color: #f2f2f2 ;
+    padding-top: 2px;
+    padding-bottom: 2px;
+
+    padding-left: 230px;
     margin-top:1px;
     margin-left: 250px;
     margin-right: 250px;
     border: 2px solid rgb(123, 123, 123);;
     border-radius: 8px;  
+    background-image: url("https://i.pinimg.com/originals/c5/ed/51/c5ed5110772cd5665ab2f6c7b9dfaca6.jpg");
+    background-size: 100%;
 }
 
 
@@ -298,8 +305,12 @@ cursor: pointer;
 #up,#down,#left,#right{
   width: 55px;
   height: 30px;
+  background-color: #fdff6b;
 }
+#up:hover,#down:hover,#left:hover,#right:hover{
+  background-color: rgba(253, 254, 204, 0.833);
 
+}
 
 
 #mail{
@@ -320,7 +331,7 @@ footer{
 
 
 .space {
-  width: 36px;
+  width: 38px;
   height: auto;
   display: inline-block;
 }
@@ -525,6 +536,7 @@ cursor: pointer;
   font-size: 16px;
   font-family: monospace;
   background-color: #f2f2f2;
+  
   /* padding: 10px; */
   margin-top:50px;
   /* margin-bottom:50px; */

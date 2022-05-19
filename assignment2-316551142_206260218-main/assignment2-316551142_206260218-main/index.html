@@ -123,21 +123,27 @@
         </div>
       </div>
       <div class="operation tab" id="definition">
-        <div id="changeKey" >
-          <label>Move keys:</label>
-          <div>
-            <button id="up" style="margin-left:150px;" onclick="setKey('up')">&uarr;</button>
-          </div>
-          <div class="outdiv">
-            <button id="left" style="margin-left:96px;" onclick="setKey('left')">&larr;</button>
-            <div class="space">
+        <div>
+          <div style="margin-right: 150px;margin-top:65px;">
+            <label>Move keys:</label>
+        </div>
+          <div id="changeKey" style="margin-top: -50px;margin-left: 20px;" >
+            <!-- <label>Move keys:</label> -->
+            <div>
+              <button id="up" style="margin-left:152px;" onclick="setKey('up')">&uarr;</button>
             </div>
-        <button id="right" onclick="setKey('right')">&rarr;</button>
-    </div>
-      <div>
-        <button id="down" style="margin-left:150px;" onclick="setKey('down')">&darr;</button>
+            <div class="outdiv">
+              <button id="left" style="margin-left:96px;margin-top: 2px;" onclick="setKey('left')">&larr;</button>
+              <div class="space">
+              </div>
+          <button id="right" onclick="setKey('right')">&rarr;</button>
       </div>
-      </div>
+        <div>
+          <button id="down" style="margin-left:152px;margin-top: 2px;" onclick="setKey('down')">&darr;</button>
+        </div>
+        </div>
+        </div>
+
         <div id="pressKey">
         <div id="myModal" class="modal">
           <span class="close" onclick="closeKey()">&times;</span>
@@ -221,7 +227,7 @@
         <br>
         <div class="GhostNum">
           <label>Ghost number:</label>
-          <div class="ranges">
+          
             <input
               class="numberGhosts"
               type="range"
@@ -231,19 +237,18 @@
               value="1"
               oninput="changeGhosts(this.value)"
             />
+            <div class="ranges">
             <output class="code-container">
-              <img class="imgGhosts imgGhost imgGhosts1" src="img/1ghosts.jpg" />
-              <img class="imgGhosts imgGhost imgGhosts2" src="img/2ghosts.jpg" />
+              <img class="imgGhosts imgGhost imgGhosts1" src="img/1ghosts.jpg"  />
+              <img class="imgGhosts imgGhost imgGhosts2" src="img/2ghosts.jpg"/>
               <img class="imgGhosts imgGhost imgGhosts3" src="img/3ghosts.jpg" />
-              <img class="imgGhosts imgGhost imgGhosts4" src="img/4ghosts.jpg" />
+              <img class="imgGhosts imgGhost imgGhosts4" src="img/4ghosts.jpg"  />
             </output>
           </div>
         </div>
-        <div class="buttons" style="margin-left: 15%;">
-          <button id="randomDef" style="top:75%;" onclick="randomChange()">
-            choose ranomaly
-          </button>
-          <button id="btnDefinition"  style="top:75%; left:40%;" onclick="startGame()">Start the game</button>
+        <div class="buttons" style="margin-left: -100px;" >
+          <button id="randomDef" style="top:75%;" onclick="randomChange()"> choose ranomaly</button>
+          <button id="btnDefinition"  style="top:75%; left:50%;" onclick="startGame()">Start the game</button>
         </div>
       </div>
 
