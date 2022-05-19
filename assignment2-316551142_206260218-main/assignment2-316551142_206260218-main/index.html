@@ -14,7 +14,7 @@
     <audio id="freeghost" preload="auto"><source src="audio/freeghost.wav"/></audio>
     <audio id="ghosteat" preload="auto"><source src="audio/ghosteat.wav"/></audio>
     <header style="background-color: #006473;">
-      <img src="img/logo3.png" style="padding-left: 50px;; width: 200px;;">
+      <img src="img/logo3.png" style="padding-left: 50px;; width: 200px; height: 50px;">
       <label id="presenter">Shir Indaporker | Liron Groer | Anna Kolkovsky</label>
     </header>
     <div class="operstions">
@@ -40,7 +40,7 @@
 
       </div>
       <div class="operation tab" id="welcome">
-        <img src="img/PACMAN.gif" style=" width:100%; height: 515px;">
+        <img src="img/PACMAN.gif" style=" width:100%; height: 465px;">
       
          <button id="btnLogin" class="btn" style="top: 75%;left:60%;" onclick="changeOperator('login')">Login
          </button>
@@ -122,13 +122,14 @@
           </p>
         </div>
       </div>
+
       <div class="operation tab" id="definition">
         <div>
-          <div style="margin-right: 150px;margin-top:65px;">
+        <div>
+          <div style="margin-right: 150px;margin-top:30px;">
             <label>Move keys:</label>
         </div>
-          <div id="changeKey" style="margin-top: -50px;margin-left: 20px;" >
-            <!-- <label>Move keys:</label> -->
+          <div id="changeKey" style="margin-top: -5px;margin-left: 20px;" >
             <div>
               <button id="up" style="margin-left:152px;" onclick="setKey('up')">&uarr;</button>
             </div>
@@ -144,13 +145,58 @@
         </div>
         </div>
 
+        <div style="margin-left: 350px; margin-top: -105px;">
+          <label> 
+            select ball's color:
+          </label> 
+          <br>
+          <div style="margin-left:70px;;">
+            Small ball:
+            <input
+              type="color"
+              style="border-radius: 100%;margin-left: 10px;"
+              oninput="setColor(this.value, 's')"
+              id="colorSmall"
+              name="favcolor"
+              value="#D94FF8"
+              
+            />
+            </div>
+            <div style="margin-left:70px;;">
+              Medium ball:
+              <input
+                type="color"
+                style="border-radius: 100%"
+                oninput="setColor(this.value, 'm')"
+                id="colorMedium"
+                name="favcolor"
+                value="#61FF98"
+              />
+            </div>
+            <div style="margin-left:70px;;">
+            Large ball:
+            <input
+              type="color"
+              style="border-radius: 100%;margin-left: 10px;"
+              oninput="setColor(this.value, 'l')"
+              id="colorLarge"
+              name="favcolor"
+              value="#FD6895"
+            />
+          </div>
+        </div>
+
+      </div>
+
         <div id="pressKey">
         <div id="myModal" class="modal">
           <span class="close" onclick="closeKey()">&times;</span>
           <p id="textKey">Press new key...</p>
         </div>
       </div>
-      <br>
+
+
+      <div style="margin-top: 60px;">
         <div class="foodNum">
           <div class="ranges">
             <output class="code-container"
@@ -168,50 +214,10 @@
       
           </div>
         </div>
-        <br>        <br>
 
-        <label> 
-          select ball's color:
-        </label> 
-        <br>
-        <div style="margin-left:70px;;">
-          Small ball:
-          <input
-            type="color"
-            style="border-radius: 100%;margin-left: 10px;"
-            oninput="setColor(this.value, 's')"
-            id="colorSmall"
-            name="favcolor"
-            value="#D94FF8"
-            
-          />
-          </div>
-          <div style="margin-left:70px;;">
-            Medium ball:
-            <input
-              type="color"
-              style="border-radius: 100%"
-              oninput="setColor(this.value, 'm')"
-              id="colorMedium"
-              name="favcolor"
-              value="#61FF98"
-            />
-          </div>
-          <div style="margin-left:70px;;">
-          Large ball:
-          <input
-            type="color"
-            style="border-radius: 100%;margin-left: 10px;"
-            oninput="setColor(this.value, 'l')"
-            id="colorLarge"
-            name="favcolor"
-            value="#FD6895"
-          />
-        </div>
-        <br>
-        <div class="timeGame">
+        <div class="timeGame" style="margin-top: 30px;">
           <output class="code-container"
-          >Time to the game: <span class="timeAns">60</span>
+          >Time of game: <span class="timeAns">60</span>
         </output>
           <input
               class="finishtime"
@@ -224,8 +230,9 @@
             />
    
         </div>
-        <br>
-        <div class="GhostNum">
+
+      
+        <div class="GhostNum" style="margin-left: 350px; margin-top: -75px;">
           <label>Ghost number:</label>
           
             <input
@@ -246,9 +253,11 @@
             </output>
           </div>
         </div>
-        <div class="buttons" style="margin-left: -100px;" >
+      </div>
+
+        <div class="buttons" style="margin-left: 40px; margin-top: 50px;" >
           <button id="randomDef" style="top:75%;" onclick="randomChange()"> choose ranomaly</button>
-          <button id="btnDefinition"  style="top:75%; left:50%;" onclick="startGame()">Start the game</button>
+          <button id="btnDefinition"  style="top:75%; margin-left:30px;" onclick="startGame()">Start the game</button>
         </div>
       </div>
 
@@ -266,22 +275,22 @@
         </div>
         
       </div>
-      <div id="myDefinition">
+      <div id="myDefinition" >
         <label id="myName"></label>
         <br>
         <br>
         <label>Keys:</label>
         <div>
-        <label id="myUp" style="margin-left:134px;">&uarr;</label>
+        <label id="myUp" style="margin-left:94px;">&uarr;</label>
       </div>
       <div> 
-        <label id="myLeft" style="margin-left:120px;">&larr;</label>
+        <label id="myLeft" style="margin-left:80px;">&larr;</label>
         <div class="mySpace">
         </div>
         <label id="myRight">&rarr;</label>
       </div>
       <div>
-        <label id="myDown" style="margin-left:134px;">&darr;</label>
+        <label id="myDown" style="margin-left:94px;">&darr;</label>
       </div>
       <br>
         <label id="myFood">Food:</label>

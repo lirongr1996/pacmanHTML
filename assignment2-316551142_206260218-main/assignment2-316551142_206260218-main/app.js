@@ -861,7 +861,22 @@ function setKey(direction){
 		keys[direction]=event.keyCode;
 		$('#pressKey').css("display","none");
 		let n='#'+direction;
-		document.querySelector(n).innerHTML=event.key;
+		switch(event.keyCode){//[32, 37, 38, 39, 40]
+			case 37:
+				document.querySelector(n).innerHTML='&larr;';
+				break;
+			case 38:
+				document.querySelector(n).innerHTML='&uarr;';
+				break;
+			case 39:
+				document.querySelector(n).innerHTML='&rarr;';
+				break;
+			case 40:
+				document.querySelector(n).innerHTML='&darr;';
+				break;
+			default:
+				document.querySelector(n).innerHTML=event.key;
+		}
 	});
 }
 
