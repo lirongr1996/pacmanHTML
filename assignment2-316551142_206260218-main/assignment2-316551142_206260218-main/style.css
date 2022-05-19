@@ -322,6 +322,8 @@ cursor: pointer;
 }
 
 footer{
+  display: flex;
+  flex-direction: row;
   text-align: center;
   font-size: 20px;
   font-weight: bold ;

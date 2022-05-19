@@ -811,8 +811,13 @@ function CheckDetails(){
 	}
 	var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
 	if (!emailReg.test( $('#email').val() )){
-		console.log("yes")
 	}
+
+	if (!$('#birthday').val()){
+		$('#birthday').css("border-color", "#FF0000");
+		confirm=false;
+	}
+
 
 	if(confirm){
 		users[$('#username').val()]=$('#password').val();
@@ -918,6 +923,7 @@ function clearTextRegister(){
 	$(`#password`).css("border-color", "black");
 	$(`#fullname`).css("border-color", "black");
 	$(`#email`).css("border-color", "black");
+	$(`#birthday`).css("border-color", "black");
 }
 
 
@@ -950,6 +956,12 @@ function changeOperator(op){
 		tabActive=op;
 }
 
+$(document).keydown(function(e) {
+	console.log("yes");
+    if (e.keyCode === 27) {
+        document.querySelector("#about").classList.add('operation');
+    }
+});
 
 
 function changeGhosts(val){
@@ -1028,6 +1040,7 @@ function startGame(){
 	$('#myTime').text(`Game's duration: ${timeforfinish}`);
 	$('#myGhost').text(`Ghosts: ${ghosts_remain}`);
 	$('#myName').text(`User: ${username}`);
+	$('#lblName').text(`User: ${username}`);
 	tabs.forEach(t => t.classList.add('operation'));
 	document.querySelector(`#game`).classList.add('gameT');
 	tabActive="game";

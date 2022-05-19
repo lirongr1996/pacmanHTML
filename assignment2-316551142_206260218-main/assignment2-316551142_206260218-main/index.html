@@ -75,12 +75,7 @@
         </div>
         <label>Birthday:</label>
         <br>
-        <input type="date" id="birthday" name="birthday" style="width: 95%;  height: 100%;text-align: left;font-size: xx-large;">
-        <!-- <div class="select-date">
-          <select id="year" name="yyyy" onchange="change_year(this)"></select>
-          <select id="month" name="mm" onchange="change_month(this)"></select>
-          <select id="day" name="dd"></select>
-        </div> -->
+        <input type="date" id="birthday" name="birthday" onclick="startWrite('birthday')" style="width: 95%;  height: 100%;text-align: left;font-size: xx-large;">
         <br>
         <br>
         <button id="submit" onclick="CheckDetails()">Submit</button>
@@ -190,7 +185,7 @@
 
         <div id="pressKey">
         <div id="myModal" class="modal">
-          <span class="close" onclick="closeKey()">&times;</span>
+          <span class="close" onclick="closeKey()" >&times;</span>
           <p id="textKey">Press new key...</p>
         </div>
       </div>
@@ -264,6 +259,7 @@
       <div class="operation tab gameT" id="game">
         <div>
         <div id="details">
+          <label id="lblName">Username:</label>
           <label for="lblScore">SCORE:</label>
           <input id="lblScore" type="text" />
           <label for="lblTime">TIME:</label>
@@ -348,6 +344,11 @@
        </div>
     </div>
     <footer>
+      <div style="margin-right: 300px; margin-left: 20px;">
+        <label>Thank you for playing with us &#128526;
+        </label>
+      </div>
+      <div>
       <label>Liron Groer</label>
       <a class="mail" style="text-decoration: none;" href="mailto:groer@gost.bgu.ac.il">
         <img id="mail" src="img/mail.jpg">
@@ -360,6 +361,7 @@
       <a class="mail" style="text-decoration: none;" href="mailto:annakol@post.bgu.ac.il">
         <img id="mail" src="img/mail.jpg">
       </a>
+      </div>
     </footer>
   </body>
 </html>
