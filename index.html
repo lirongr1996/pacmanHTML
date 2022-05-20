@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <script src="./jquery-3.4.1.slim.min.js"></script>
+    <script type="text/javascript" src="./app.js"></script>
+  </head>
+
+  <body style="background-color: #006473;">
+    <audio id="start" preload="auto"><source src="audio/wellcom.wav"/></audio>
+    <audio id="cherry" preload="auto"><source src="audio/cherry.wav"/></audio>
+    <audio id="death" preload="auto"><source src="audio/death.wav"/></audio>
+    <audio id="eatfood" preload="auto"><source src="audio/eatfood.wav"/></audio>
+    <audio id="freeghost" preload="auto"><source src="audio/freeghost.wav"/></audio>
+    <audio id="ghosteat" preload="auto"><source src="audio/ghosteat.wav"/></audio>
+    <header >
+      <img src="img/logo3.png" style="padding-left: 50px;; width: 400px; height: 80px;">
+      <label id="presenter">Shir Indaporker | Liron Groer | Anna Kolkovsky</label>
+    </header>
+    <div class="operstions">
+      <div class="chooseOperation" id="menu">
+            <a
+              href="#"
+              class="active AWelcome"
+              onclick="changeOperator('welcome')"
+              >welcome</a
+            >
+            <a
+              href="#"
+              class="active ARegister"
+              onclick="changeOperator('register')"
+              >register</a
+            >
+            <a href="#" class="active ALogin" onclick="changeOperator('login')"
+            >login</a
+            >
+            <a href="#" class="active AAbout" onclick="changeOperator('about')"
+            >about</a
+            >
+
+      </div>
+      <div class="operation tab" id="welcome" style="height: 420px;">
+         <button id="btnLogin" class="btn" style="top: 200px;left:65%;" onclick="changeOperator('login')">Login </button>
+         <button id="btnRegister"  class="btn" style="top: 200px;left:35%;" onclick="changeOperator('register')"> Register </button>
+      </div>
+
+      <div class="operation tab" id="register">
+        <label>User name:</label>
+        <div class="filed">
+          <textarea class="reg" id="username" onclick="startWrite('username')"></textarea>
+        </div>  
+        <div class="tooltip">*
+          <label>Password:</label>
+          <span class="tooltiptext">The password must be at least 6 characters in length containing one letter and one number</span>
+        </div>
+        <div class="filed">
+          <textarea class="reg" id="password"  onclick="startWrite('password')"></textarea>
+        </div>
+        <label>Full name:</label>
+        <div class="filed">
+          <textarea class="reg" id="fullname" onclick="startWrite('fullname')"></textarea></textarea>
+        </div>       
+        <div class="tooltip">*
+          <label>Email:</label>
+          <span class="tooltiptext" >The email must be a valid email address</span>
+        </div>       
+        <div class="filed">
+          <textarea class="reg" id="email" onclick="startWrite('email')"></textarea>
+        </div>
+        <label>Birthday:</label>
+        <br>
+        <input type="date" id="birthday" name="birthday" onclick="startWrite('birthday')" style="width: 95%;  height: 100%;text-align: left;font-size: xx-large;">
+        <br>
+        <br>
+        <button id="submit" onclick="CheckDetails()">Submit</button>
+      </div>
+      
+      <div class="operation tab" id="login">
+        <br>
+        <label>User name:</label>
+        <div class="filed">
+          <textarea id="usernamelogin"></textarea>
+        </div>
+        <br>
+        <label>Password:</label>
+        <div class="filed">
+          <textarea id="passwordlogin"></textarea>
+        </div>
+        <br>
+        <br>
+        <button id="log" onclick="login()">login</button>
+      </div>
+      <br>
+    
+
+      <div id="about" class="operation tab" >
+        <div id="modelAbout">
+          <span class="closeAbout" onclick="closeAbout()">&times;</span>
+          <h2 style="text-align: center;">Shir Indaporker | Liron Groer | Anna Kolkovsky</h2>
+          <h4 class="titleA">JQuery Plugin: </h4>
+          <p>
+            We used JQuery to verify user's details in register and login.</br> In addition we used it for apply game settings and design by collect information from the user.
+          </p>
+          <h4 class="titleA">Template: </h4>
+          <p>
+            We used in template for drawing the ghost in the canvas.
+          </p>
+          <h4 class="titleA">Difficulties: </h4>
+          <p>
+            The main difficulty at work was planning the displacement of the ghosts along</br>with synchronizing the intervals so that they would chase the Pacman in an intelligent way.
+          </p>
+        </div>
+      </div>
+
+      <div class="operation tab" id="definition">
+        <div>
+        <div>
+          <div style="margin-right: 150px;margin-top:30px;">
+            <label>Move keys:</label>
+        </div>
+          <div id="changeKey" style="margin-top: -5px;margin-left: 20px;" >
+            <div>
+              <button id="up" style="margin-left:152px;" onclick="setKey('up')">&uarr;</button>
+            </div>
+            <div class="outdiv">
+              <button id="left" style="margin-left:96px;margin-top: 2px;" onclick="setKey('left')">&larr;</button>
+              <div class="space">
+              </div>
+          <button id="right" onclick="setKey('right')">&rarr;</button>
+      </div>
+        <div>
+          <button id="down" style="margin-left:152px;margin-top: 2px;" onclick="setKey('down')">&darr;</button>
+        </div>
+        </div>
+        </div>
+
+        <div style="margin-left: 350px; margin-top: -105px;">
+          <label> 
+            select ball's color:
+          </label> 
+          <br>
+          <div style="margin-left:70px;;">
+            Small ball:
+            <input
+              type="color"
+              style="border-radius: 100%;margin-left: 10px;"
+              oninput="setColor(this.value, 's')"
+              id="colorSmall"
+              name="favcolor"
+              value="#D94FF8"
+              
+            />
+            </div>
+            <div style="margin-left:70px;;">
+              Medium ball:
+              <input
+                type="color"
+                style="border-radius: 100%"
+                oninput="setColor(this.value, 'm')"
+                id="colorMedium"
+                name="favcolor"
+                value="#61FF98"
+              />
+            </div>
+            <div style="margin-left:70px;;">
+            Large ball:
+            <input
+              type="color"
+              style="border-radius: 100%;margin-left: 10px;"
+              oninput="setColor(this.value, 'l')"
+              id="colorLarge"
+              name="favcolor"
+              value="#FD6895"
+            />
+          </div>
+        </div>
+
+      </div>
+        <div id="pressKey">
+        <div id="myModal" class="modal">
+          <span class="close" onclick="closeKey()" >&times;</span>
+          <p id="textKey">Press new key...</p>
+        </div>
+      </div>
+      <div>
+        <div class="GhostNum" style="margin-right: 60px; margin-top: 50px;">
+          <label>Ghost number:</label> 
+            <input
+              class="numberGhosts"
+              type="range"
+              min="1"
+              max="4"
+              step="1"
+              value=""
+              oninput="changeGhosts(this.value)"
+            />
+            <div class="ranges">
+            <output class="code-container">
+              <img class="imgGhosts imgGhost imgGhosts1" src="img/1ghosts.jpg"  />
+              <img class="imgGhosts imgGhost imgGhosts2" src="img/2ghosts.jpg"/>
+              <img class="imgGhosts imgGhost imgGhosts3" src="img/3ghosts.jpg" />
+              <img class="imgGhosts imgGhost imgGhosts4" src="img/4ghosts.jpg"  />
+            </output>
+          </div>
+        </div>
+        <div style="margin-top:-90px;margin-left: 350px;">
+        <div class="foodNum" >
+          <div class="ranges">
+            <output class="code-container"
+            >Food number: <span class="foodAns">70</span>
+          </output>
+            <input
+              class="numberBalls"
+              type="range"
+              min="50"
+              max="90"
+              step="1"
+              value="70"
+              oninput="changeNumber(this.value)"
+            />
+      
+          </div>
+        </div>
+
+        <div class="timeGame" style="margin-top: 30px;">
+          <output class="code-container"
+          >Time of game: <span class="timeAns">60</span>
+        </output>
+          <input
+              class="finishtime"
+              type="range"
+              min="60"
+              max="120"
+              step="1"
+              value="60"
+              oninput="setTime(this.value)"
+            />
+   
+        </div>
+      </div>
+
+     
+      </div>
+        <div class="buttons" style="margin-left: 40px; margin-top: 70px;" >
+          <button id="randomDef" style="top:75%;" onclick="randomChange()"> choose ranomaly</button>
+          <button id="btnDefinition"  style="top:75%; margin-left:30px;" onclick="startGame()">Start the game</button>
+        </div>
+      </div>
+
+      <div class="operation tab gameT" id="game">
+        <div>
+        <div id="details">
+          <label id="lblName">Username:</label>
+          <label for="lblScore">SCORE:</label>
+          <input id="lblScore" type="text" />
+          <label for="lblTime">TIME:</label>
+          <input id="lblTime" type="text" />
+          <label id="lblLives">Lives:</label>
+        </div>
+        <div>
+          <canvas id="canvas" height="485" width="965"></canvas>
+        </div>
+        
+      </div>
+      <div id="myDefinition" >
+        <label id="myName"></label>
+        <br>
+        <br>
+        <label>Keys:</label>
+        <div>
+        <label id="myUp" style="margin-left:94px;">&uarr;</label>
+      </div>
+      <div> 
+        <label id="myLeft" style="margin-left:80px;">&larr;</label>
+        <div class="mySpace">
+        </div>
+        <label id="myRight">&rarr;</label>
+      </div>
+      <div>
+        <label id="myDown" style="margin-left:94px;">&darr;</label>
+      </div>
+      <br>
+        <label id="myFood">Food:</label>
+    </br>
+        <label>color balls:</label>
+      </br>
+        <label id="mySmall">small </label>
+        <label id="myMedium">medium </label>
+        <label id="myLarge">large</label>
+      </br>
+      <br>
+        <label id="myTime">Game's duration:</label>
+      </br>
+      <br>
+        <label id="myGhost">Ghosts:</label>
+        <button id="myNew" style="margin-left: 35px;" onclick="changeOperator('definition')">New game</button>
+      </div>
+      </div>
+      <div id="over">
+        <div>
+          <button id="new" onclick="changeOperator('definition')">New game</button>
+         </div>
+        <div class="gameover_o">
+        <span class="closeOver" onclick="closeGame()">&times;</span>
+        <p> GAME </p>
+         <p> OVER </p>
+         <p> LOSER! </p>
+       </div>
+       </div>
+       <div id="winner">
+        <div class="gameover_w">
+          <div>
+        <span class="closeOver" onclick="closeGame()">&times;</span>
+        <p>WINNER!!!</p>
+      </div>
+        <div>
+          <button id="newW" onclick="changeOperator('definition')">New game</button>
+         </div>
+       </div>
+       
+       </div>
+       <div id="better">
+        
+        <div class="gameover_b">
+          <div>
+          <span class="closeOver" onclick="closeGame()">&times;</span>
+          
+          <p class="pbetter">You are better</p>
+          <p class="pbetter" id="betterP">  </p>
+        </div>
+        <div>
+          <button id="newB" onclick="changeOperator('definition')">New game</button>
+        </div>
+        </div>
+       </div>
+    </div>
+    <footer>
+      <div style="margin-right: 420px; margin-left: 20px;">
+        <label>Thank you for playing with us &#128526;
+        </label>
+      </div>
+      <div>
+      <label>Liron Groer</label>
+      <a class="mail" style="text-decoration: none;" href="mailto:groer@gost.bgu.ac.il">
+        <img id="mail" src="img/mail.jpg">
+      </a>
+      <label>Shir Indaporker</label>
+      <a class="mail" style="text-decoration: none;" href="mailto:shirinda@gost.bgu.ac.il">
+        <img id="mail" src="img/mail.jpg">
+      </a>
+      <label>Anna Kolkovsky</label>
+      <a class="mail" style="text-decoration: none;" href="mailto:annakol@post.bgu.ac.il">
+        <img id="mail" src="img/mail.jpg">
+      </a>
+      </div>
+    </footer>
+  </body>
+</html>
