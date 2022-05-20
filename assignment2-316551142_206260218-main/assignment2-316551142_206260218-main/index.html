@@ -6,15 +6,15 @@
     <script type="text/javascript" src="./app.js"></script>
   </head>
 
-  <body>
+  <body style="background-color: #006473;">
     <audio id="start" preload="auto"><source src="audio/wellcom.wav"/></audio>
     <audio id="cherry" preload="auto"><source src="audio/cherry.wav"/></audio>
     <audio id="death" preload="auto"><source src="audio/death.wav"/></audio>
     <audio id="eatfood" preload="auto"><source src="audio/eatfood.wav"/></audio>
     <audio id="freeghost" preload="auto"><source src="audio/freeghost.wav"/></audio>
     <audio id="ghosteat" preload="auto"><source src="audio/ghosteat.wav"/></audio>
-    <header style="background-color: #006473;">
-      <img src="img/logo3.png" style="padding-left: 50px;; width: 200px; height: 50px;">
+    <header >
+      <img src="img/logo3.png" style="padding-left: 50px;; width: 400px; height: 80px;">
       <label id="presenter">Shir Indaporker | Liron Groer | Anna Kolkovsky</label>
     </header>
     <div class="operstions">
@@ -39,15 +39,9 @@
             >
 
       </div>
-      <div class="operation tab" id="welcome">
-        <img src="img/PACMAN.gif" style=" width:100%; height: 465px;">
-      
-         <button id="btnLogin" class="btn" style="top: 75%;left:60%;" onclick="changeOperator('login')">Login
-         </button>
-         <button id="btnRegister"  class="btn" style="top: 75%;
-         left:40%;" onclick="changeOperator('register')">
-             Register
-          </button>
+      <div class="operation tab" id="welcome" style="height: 420px;">
+         <button id="btnLogin" class="btn" style="top: 200px;left:65%;" onclick="changeOperator('login')">Login </button>
+         <button id="btnRegister"  class="btn" style="top: 200px;left:35%;" onclick="changeOperator('register')"> Register </button>
       </div>
 
       <div class="operation tab" id="register">

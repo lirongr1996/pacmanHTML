@@ -4,26 +4,38 @@
 .chooseOperation {
   list-style-type: none;
   margin: 0;
-  padding: 2px;
+  float: center;
+  margin-left: 250px;
+  /* margin-right: 100px; */
+  padding: 10px;
   overflow: hidden;
-  background: #fdd835;
-  box-shadow: 0 0 40px 12px #0093b1c0 , 0 0 5px 5px black ;
+  /* background: #ffde4de0; */
+  box-shadow: 12px 12px 12px 12px #2494aac0 , 1px 1px 5px 5px black ;
+  /* box-shadow:0 10px 40px 12px #0093b1c0 , 0 5px 10px 10px white ; */
   position: -webkit-sticky;
   position: sticky;
-  top: 0;
+  top: 20px;
   font-size: 12pt;
   font-weight: bold;
+  width: 60%;
   z-index: 1;
   text-transform: capitalize;
+  /* background-color: rgba(253, 254, 204, 0.854); */
+  background-color:   #b0e0e6d1;
+
+
+  border-radius: 60%;
+  border: 2px #006473;
   
 }
 
 #presenter{
   float: right;
   font-family: monospace;
-  margin-top: 1.5%;
+  margin-top: 2%;
   margin-right: 2%;
   font-size: larger;
+  border: #000000 2px;
 }
 
 #modelAbout{
@@ -35,10 +47,11 @@
   font-family: 'Dancing Script', cursive;
   background-color: #fefefe;
   margin: auto;
-  margin-top: 2%;
+  margin-top: 5%;
   padding: 20px;
   border: 1px solid #888;
   width: 60%;
+  box-shadow: 0 0 15px 5px #b0e0e6d1, 0 0 5px 5px white ;
 }
 
 .titleA{
@@ -50,19 +63,25 @@
     display: none;
 }
 #menu a{
-  padding: 20px;
+  /* padding: 30px; */
+  padding-left: 85px;
   color: black;
   text-decoration:none;
   font: 20px Raleway;
   font-weight: bold;
+  float: center;
+ 
 }
 #menu a:hover {
-  background-color: rgba(253, 254, 204, 0.833);
-  color: black;
+  /* background-color: rgba(253, 254, 204, 0.642); */
+  color:#2494aac0;
+  font: bolder;
 }
 
 #welcome {
   position: relative;
+  /* margin-top:460px;
+  margin-bottom: 80px; */
 }
 #welcome img {
   width: 100%;
@@ -71,19 +90,24 @@
   position: absolute;
   transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
-  background-color: rgb(207, 207, 207);
-  color: white;
+  /* background-color: rgb(207, 207, 207); */
+  color:white;
   width:200px;
-  height:70px;
-  font-size: 40px;
+  height:200px;
+  font-size: 50px;
   border: none;
   cursor: pointer;
-  border-radius: 20px;
+  /* box-shadow: 0 2px 50px 5px #7fff4da7 , 0 2px 50px 5px white ; */
+  box-shadow: 2px 5px 12px 12px #2494aac0 , 1px 2px 5px 5px  rgba(253, 254, 204, 0.847) ;
+  border-radius: 100%;
+  background-color:  #006473b7;;
   text-align: center;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+  font: 30px Raleway;
+  font-weight: bold;
 }
 #welcome .btn:hover {
-  background-color: rgb(253, 254, 204);
+  /* background-color: rgba(253, 254, 204, 0.543); */
+  background-color:   #b0e0e6ae;
   color:black;
 }
 
@@ -105,13 +129,11 @@
     margin-right: 280px;
     border: 2px solid rgb(123, 123, 123);;
     border-radius: 8px;  
-    box-shadow: 0 0 5px 5px #0093b1c0 , 0 0 5px 5px black ;
-
+    box-shadow: 0 0 5px 5px #b0e0e6d1, 0 0 5px 5px white ;
     
 
 }
 #login{
-  margin-bottom: 80px;
   text-align: left;
   font-size: 20px;
   font-weight: bold ;
@@ -123,15 +145,14 @@
   padding-bottom: 20px;
   margin-top:68px;
   margin-left: 280px;
+  margin-bottom: 40px;
   margin-right: 280px;
   border: 2px solid rgb(123, 123, 123);;
   border-radius: 8px; 
-  box-shadow: 0 0 5px 5px #0093b1c0 , 0 0 5px 5px black ;
-
-}
+  box-shadow: 0 0 5px 5px #b0e0e6d1, 0 0 5px 5px white ;}
 
 #randomDef,#btnDefinition{
-  color: rgb(255, 255, 255);
+  color: rgb(7, 7, 7);
   border-radius: 8px;
   background-color: rgb(207, 207, 207);
   width: 250px;
@@ -139,9 +160,10 @@
   font-size: 20px;
   font-family: monospace;
   transition: 0.3s;
+
 }
 #submit,#log{
-  color: rgb(255, 255, 255);
+  color: rgb(14, 12, 12);
   border-radius: 8px;
   background-color: rgb(207, 207, 207);
   width: 180px;
@@ -173,7 +195,7 @@
   margin-top:10px;
   margin-left: 20%;
   margin-right: 20%;
-  box-shadow: 0 0 5px 5px #0093b1c0 , 0 0 5px 5px black ;
+  box-shadow: 0 0 5px 5px #b0e0e6d1, 0 0 5px 5px white ;
 }
 
 
@@ -290,7 +312,8 @@ cursor: pointer;
 #up,#down,#left,#right{
   width: 55px;
   height: 30px;
-  background-color: #fdff6b;
+  background-color: #b0e0e6d1;
+
 }
 #up:hover,#down:hover,#left:hover,#right:hover{
   background-color: rgba(253, 254, 204, 0.833);
@@ -329,7 +352,7 @@ footer{
 }
 
 .operstions{
-  background-color: #000;
+  background-color: #006473;
   padding-bottom: 0.5%;;
 
 
@@ -515,22 +538,24 @@ cursor: pointer;
 .gameT{
   display: flex;
   flex-direction: row;
-  margin-top: -10px;
+  margin-top: 20px;
+  margin-left: 40px;
 }
 
 #myDefinition{
   text-align: left;
   font-size: 16px;
   font-family: monospace;
-  background-color: #f2f2f2;
+  /* background-color: #f2f2f2; */
+  background-color:   #b0e0e6d1;
   margin-top:50px;
   margin-right:180px;
   margin-left: 20px;
   padding-left: 10px;
   height: 400px;
-  border: 2px solid rgb(123, 123, 123);;
-  border-radius: 8px; 
-  box-shadow: 0 0 5px 5px #0093b1c0 , 0 0 5px 5px black ;
+  /* border: 2px solid rgb(123, 123, 123);; */
+  /* border:  2px rgba(253, 254, 204, 0.854);; */
+  box-shadow: 0 0 5px 5px #b0e0e6d1, 0 0 5px 5px white ;
  
 }
 
